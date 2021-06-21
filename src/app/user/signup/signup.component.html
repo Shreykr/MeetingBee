@@ -1,0 +1,177 @@
+<app-general-nav></app-general-nav>
+<section class="main-container">
+    <div class="container-fluid signup-container scroll-gradient">
+        <h2 class="signup-title text-center mb-4">Sign Up</h2>
+        <form autocomplete="off" [formGroup]="signupForm" (ngSubmit)="signUpFunction(signupForm)" class="signup-form">
+            <div class="signup-form__group" [ngClass]="{'signup-form__focused':firstNameFocused}">
+                <label for="firstname" class="signup-form__label">First Name</label>
+                <input autocomplete="false" id="firstname" class="signup-form__input" (focus)="toggleFirstNameFocus()"
+                    (focusout)="toggleFirstNameFocus()" (change)="updateProgressBar()" type="text" name="firstname"
+                    formControlName="userFirstName" [ngClass]="{
+                    'has-danger': ((signupForm.get('userFirstName')!.invalid && signupForm.get('userFirstName')!.dirty)||(signupForm.get('userFirstName')!.touched && signupForm.get('userFirstName')!.pristine)), 
+                    'has-success': signupForm.get('userFirstName')!.valid && signupForm.get('userFirstName')!.dirty
+                }" data-toggle="tooltip" title="Max 30 alphabets" />
+            </div>
+            <div *ngIf="signupForm.get('userFirstName')!.hasError('pattern') && !secondaryFirstNameFocused">
+                <p class="error-msg-p">Enter a valid name</p>
+            </div>
+            <div
+                *ngIf="signupForm.get('userFirstName')!.hasError('required') && signupForm.get('userFirstName')!.touched && !firstNameFilled">
+                <p class="error-msg-p">First Name Required</p>
+            </div>
+            <div class="signup-form__group" [ngClass]="{'signup-form__focused':lastNameFocused}">
+                <label for="lastname" class="signup-form__label">Last Name</label>
+                <input id="lastname" class="signup-form__input" (focus)="toggleLastNameFocus()"
+                    (focusout)="toggleLastNameFocus()" type="text" name="lastname" formControlName="userLastName"
+                    [ngClass]="{
+                    'has-danger': ((signupForm.get('userLastName')!.invalid && signupForm.get('userLastName')!.dirty)||(signupForm.get('userLastName')!.touched && signupForm.get('userLastName')!.pristine)), 
+                    'has-success': signupForm.get('userLastName')!.valid && signupForm.get('userLastName')!.dirty
+                }" data-toggle="tooltip" title="Max 30 characters (optional)" />
+            </div>
+            <div *ngIf="signupForm.get('userLastName')!.hasError('pattern') && !secondaryLastNameFocused">
+                <p class="error-msg-p">Enter a valid name</p>
+            </div>
+            <div class="signup-form__group" [ngClass]="{'signup-form__focused':userNameFocused}">
+                <label for="username" class="signup-form__label">Username</label>
+                <input id="username" class="signup-form__input" (focus)="toggleUserNameFocus()"
+                    (focusout)="toggleUserNameFocus()" (change)="updateProgressBar()" type="text" name="username"
+                    formControlName="userName" [ngClass]="{
+                    'has-danger': ((signupForm.get('userName')!.invalid && signupForm.get('userName')!.dirty)||(signupForm.get('userName')!.touched && signupForm.get('userName')!.pristine)),'has-success': signupForm.get('userName')!.valid && signupForm.get('userName')!.dirty
+                }" data-toggle="tooltip" title="Max 20 characters" />
+            </div>
+            <div *ngIf="signupForm.get('userName')!.hasError('pattern') && !secondaryUserNameFocused">
+                <p class="error-msg-p">Enter a valid name</p>
+            </div>
+            <div
+                *ngIf="signupForm.get('userName')!.hasError('required') && signupForm.get('userName')!.touched && !userNameFilled">
+                <p class="error-msg-p">Username Required</p>
+            </div>
+            <div class="signup-form__group" [ngClass]="{'signup-form__focused':countryFocused}">
+                <label for="select-dropdown" class="signup-form__label">Country</label>
+
+                <div class="select-dropdown">
+                    <!-- <select id="select-dropdown" class="form-control" size="5" aria-label="size 5 select example" [ngClass]="{
+                        'has-danger': ((signupForm.get('userCountry')!.invalid && signupForm.get('userCountry')!.dirty)||(signupForm.get('userCountry')!.touched && signupForm.get('userCountry')!.pristine)),
+                        'has-success': signupForm.get('userCountry')!.valid && signupForm.get('userCountry')!.dirty
+                      }" formControlName="userCountry">
+                    <ng-container *ngFor="let country of countryList; let i=index; let last=last;"><option [value]="country">{{country}}</option><hr *ngIf="!last" ></ng-container>                        
+                </select> -->
+                    <input class="signup-form__input" list="datalistOptions" id="exampleDataList"
+                        [placeholder]="countryFocused?'Type to search...' : ''" [ngClass]="{
+                    'has-danger': ((signupForm.get('userCountry')!.invalid && signupForm.get('userCountry')!.dirty)||(signupForm.get('userCountry')!.touched && signupForm.get('userCountry')!.pristine)),
+                    'has-success': signupForm.get('userCountry')!.valid && signupForm.get('userCountry')!.dirty
+                  }" formControlName="userCountry" (focus)="toggleCountryFocus()" (focusout)="toggleCountryFocus()"
+                        (change)="updateProgressBar()">
+                    <datalist id="datalistOptions">
+                        <option *ngFor="let country of countryList" [value]="country">{{country}}</option>
+                    </datalist>
+                </div>
+            </div>
+            <div
+                *ngIf="signupForm.get('userCountry')!.hasError('required') && signupForm.get('userCountry')!.touched  && !secondaryCountryFocused && !countryFilled">
+                <p class="error-msg-p">Country Required</p>
+            </div>
+            <div
+                *ngIf="signupForm.get('userCountry')!.invalid && signupForm.get('userCountry')!.touched && countryFilled ">
+                <p class="error-msg-p">Invalid Country</p>
+            </div>
+            <div class="signup-form__group" [ngClass]="{'signup-form__focused':mobileFocused}">
+                <label for="mobile" class="signup-form__label">Mobile Number</label>
+                <input id="mobile" class="signup-form__input" (focus)="toggleMobileFocus()"
+                    (focusout)="toggleMobileFocus()" (change)="updateProgressBar()" type="number" name="mobile"
+                    formControlName="userMobileNumber" [ngClass]="{
+                    'has-danger': ((signupForm.get('userMobileNumber')!.invalid && signupForm.get('userMobileNumber')!.dirty)||(signupForm.get('userMobileNumber')!.touched && signupForm.get('userMobileNumber')!.pristine)), 
+                    'has-success': signupForm.get('userMobileNumber')!.valid && signupForm.get('userMobileNumber')!.dirty
+                }" data-toggle="tooltip" title="Enter without country code" />
+            </div>
+            <div *ngIf="signupForm.get('userMobileNumber')!.hasError('pattern') && !secondaryMobileFocused">
+                <p class="error-msg-p">Enter a valid mobile number</p>
+            </div>
+            <div
+                *ngIf="signupForm.get('userMobileNumber')!.hasError('required') && signupForm.get('userMobileNumber')!.touched && !mobileFilled">
+                <p class="error-msg-p">Mobile Number Required</p>
+            </div>
+            <div class="signup-form__group" [ngClass]="{'signup-form__focused':emailFocused}">
+                <label for="email" class="signup-form__label">Email</label>
+                <input id="email" class="signup-form__input" (focus)="toggleEmailFocus()"
+                    (focusout)="toggleEmailFocus()" (change)="updateProgressBar()" type="email" name="email"
+                    formControlName="userMail" [ngClass]="{
+                    'has-danger': ((signupForm.get('userMail')!.invalid && signupForm.get('userMail')!.dirty)||(signupForm.get('userMail')!.touched && signupForm.get('userMail')!.pristine)), 
+                    'has-success': signupForm.get('userMail')!.valid && signupForm.get('userMail')!.dirty
+                }" />
+            </div>
+            <div *ngIf="signupForm.get('userMail')!.hasError('pattern') && !secondaryMailFocused">
+                <p class="error-msg-p">Enter a valid email address</p>
+            </div>
+            <div
+                *ngIf="signupForm.get('userMail')!.hasError('required') && signupForm.get('userMail')!.touched && !emailFilled">
+                <p class="error-msg-p">Email Required</p>
+            </div>
+            <div class="signup-form__group popovers"
+                [ngClass]="{'signup-form__focused':passwordFocused,'popover-active':toggles}">
+                <label for="password" class="signup-form__label">Password</label>
+                <input id="password" class="signup-form__input popover-trigger" (focus)="toggle()"
+                    (focusout)="badToggle()" (change)="verify()" (focus)="togglePasswordFocus()"
+                    (focusout)="togglePasswordFocus()" (keyup)="validatePassword()" (change)="updateProgressBar()"
+                    type="password" name="password" formControlName="userPassword" [ngClass]="{
+                    'has-danger': ((signupForm.get('userPassword')!.invalid && signupForm.get('userPassword')!.dirty)||(signupForm.get('userPassword')!.touched && signupForm.get('userPassword')!.pristine)), 
+                    'has-success': signupForm.get('userPassword')!.valid && signupForm.get('userPassword')!.dirty }"
+                    (change)="verify()" />
+            </div>
+            <ul class="popover-menu" *ngIf="toggles">
+                <li class="popover-menu-item"><button [ngClass]="{
+                    'has-error':!minNumberOfCharacters,
+                    'has-no-error':minNumberOfCharacters
+                }">Min. 8 characters</button></li>
+                <li class="popover-menu-item"><button [ngClass]="{
+                    'has-error':!maxNumberOfCharacters,
+                    'has-no-error':maxNumberOfCharacters
+                }">Max. 30 characters</button></li>
+                <li class="popover-menu-item"><button [ngClass]="{
+                    'has-error':!upperCaseCharacters,
+                    'has-no-error':upperCaseCharacters
+                }">Atleast one uppercase letter</button></li>
+                <li class="popover-menu-item"><button [ngClass]="{
+                    'has-error':!lowerCaseCharacters,
+                    'has-no-error':lowerCaseCharacters
+                }">Atleast one lowercase letter</button></li>
+                <li class="popover-menu-item"><button [ngClass]="{
+                    'has-error':!specialCharacters,
+                    'has-no-error':specialCharacters
+                }">Atleast one special character</button></li>
+            </ul>
+            <div class="error-msg"
+                *ngIf="signupForm.get('userPassword')!.hasError('pattern') && !secondaryPasswordFocused">
+                <p class="error-msg-p">Enter a valid password</p>
+            </div>
+            <div class="error-msg"
+                *ngIf="signupForm.get('userPassword')!.hasError('required') && signupForm.get('userPassword')!.touched && !secondaryPasswordFocused && !passwordFilled">
+                <p class="error-msg-p">Password Required</p>
+            </div>
+            <div class="signup-form__group" [ngClass]="{'signup-form__focused':confirmPasswordFocused}">
+                <label for="confirmPassword" class="signup-form__label">Confirm Password</label>
+                <input id="confirmPassword" class="signup-form__input" (change)="verify()"
+                    (focus)="toggleConfirmPasswordFocus()" (focusout)="toggleConfirmPasswordFocus()"
+                    (change)="updateProgressBar()" type="password" name="confirmPassword"
+                    formControlName="userConfirmPassword" [ngClass]="{
+                    'has-danger': ((signupForm.get('userConfirmPassword')!.invalid && signupForm.get('userConfirmPassword')!.dirty)||(signupForm.get('userConfirmPassword')!.touched && signupForm.get('userConfirmPassword')!.pristine))||(!result && signupForm.get('userConfirmPassword')!.dirty), 
+                    'has-success': signupForm.get('userConfirmPassword')!.valid && signupForm.get('userConfirmPassword')!.dirty && result
+                }" />
+            </div>
+            <div class="error-msg"
+                *ngIf="signupForm.get('userConfirmPassword')!.hasError('required') && signupForm.get('userConfirmPassword')!.touched && !secondaryConfirmPasswordFocused && !confirmPasswordFilled">
+                <p class="error-msg-p">Confirm Password Required</p>
+            </div>
+            <div class="error-msg"
+                *ngIf="(!result && signupForm.get('userConfirmPassword')!.dirty && confirmPasswordFilled) ">
+                <p class="error-msg-p">Passwords don't match</p>
+            </div>
+            <div class="reset-form">
+                <p class="reset-form-text" (click)="resetForm()">Reset Form</p>
+            </div>
+            <button [disabled]="(!signupForm.valid || !result) || (signupForm.valid && !result)" id="signup-button"
+                type="submit" class="signup-form__btn ripple">Submit</button>
+            <!--<button (click)="resetForm()" class="reset__btn">Reset Form</button> -->
+        </form>
+    </div>
+</section>

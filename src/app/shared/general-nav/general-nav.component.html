@@ -1,0 +1,29 @@
+<nav class="nav" [ngClass]="status ?'nav-open':''">
+    <div id="sidenav" class="sidenav-collapse" [ngClass]="status ?'width-200-toggle':'width-0-toggle'">
+        <a class="sidenav-link" [routerLink]="['/login']"><span class="material-icons">login</span>Login</a>
+        <a class="sidenav-link" [routerLink]="['/signup']"><span class="material-icons">app_registration</span>Sign
+            up</a>
+    </div>
+    <div class="nav-overlay" (click)="status=!status"></div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light" [ngClass]="{'navbar-shadow':detectScroll}">
+    <div class="container-fluid">
+        <a class="navbar-brand" [routerLink]="['/home']">
+            <img src="assets/bee.png" alt="" width="35" height="30" class="d-inline-block align-text-top logo"
+                style="font-family: 'ZCOOL KuaiLe', cursive;font-size: 10px;">
+            MeetingBee</a>
+        <button class="navbar-toggler" id="nav-button" type="button" (click)="status=!status">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse main">
+            <ul class=" navbar-nav  ml-auto" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/login']">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/signup']">Sign up</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

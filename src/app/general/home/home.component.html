@@ -1,0 +1,63 @@
+<app-general-nav></app-general-nav>
+<div id="main-division ">
+    <section class="introduction">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="d-flex flex-row flex-wrap align-items-center mt-1 mt-sm-4">
+                    <div class="col-xl-5">
+                        <div class="d-flex flex-column justify-content-center align-content-center description">
+                            <h1 class="display-5 text-center home-text"> Schedule and notify your meetings<br />with
+                                MeetingBee
+                            </h1>
+                            <button type="button" class="btn btn-lg mt-3 mt-sm-3 mx-auto main-button ripple"
+                                (click)="navigateToSignUp()">Get
+                                Started</button>
+                            <h6 class="text-muted text-center mt-3 mt-sm-4 login-text">Already have an account? <a
+                                    class="ml-1 font-weight-bold" [routerLink]="['/login']">Login</a> </h6>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 mt-3"><img class="home-image" src="/assets/img1.png"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="features">
+        <div class="container-fluid mt-3 mt-sm-5">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-xl-12 mt-3 mt-sm-3">
+                    <h1 class="display-5 text-center home-text"> Features</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-xl-12 mt-4 mt-sm-5">
+                    <div class="cards">
+                        <div class="card shadow mr-lg-5 p-3 mb-5 bg-white rounded">
+                            <img class="card-img-top" src="/assets/fast.gif" alt="fast response">
+                            <div class="card-body">
+                                <h5 class="card-title">Fast responses</h5>
+                                <p class="card-text">Schedule your meetings in no time!</p>
+                            </div>
+                        </div>
+                        <div class="card shadow mr-lg-5 p-3 mb-5 bg-white rounded">
+                            <img class="card-img-top" src="/assets/simple.png" alt="s1mple">
+                            <div class="card-body">
+                                <h5 class="card-title">Simple Interface</h5>
+                                <p class="card-text">Simple yet intuitive interface which is easy to handle</p>
+                            </div>
+                        </div>
+                        <div class="card shadow p-3 mb-5 bg-white rounded">
+                            <img class="card-img-top" src="/assets/piggy.gif" alt="save money">
+                            <div class="card-body">
+                                <h5 class="card-title">Free</h5>
+                                <p class="card-text">All meeting instances are 100% free to create!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="container-fluid text-center mt-4 mt-sm-4 bg-dark  footer-content">
+        <h6>Made with <img width="20" height="20" src="/assets/heart.png" alt="heart"> in India </h6>
+    </footer>
+</div>
