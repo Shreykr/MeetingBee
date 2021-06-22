@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './general/home/home.component';
 import { GeneralNavComponent } from './shared/general-nav/general-nav.component';
+import { ErrorComponent } from './general/error/error.component';
 import { LoginComponent } from './user/login/login.component';
 import { SignupComponent } from './user/signup/signup.component';
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
@@ -19,6 +20,7 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
     AppComponent,
     HomeComponent,
     GeneralNavComponent,
+    ErrorComponent,
     LoginComponent,
     SignupComponent,
     ForgotPasswordComponent,
@@ -36,6 +38,8 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignupComponent },
+      { path: 'not-found', component: ErrorComponent },
+      { path: 'server-error/:error', component: ErrorComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password/:authToken/:userId', component: ResetPasswordComponent },
       { path: '*', component: HomeComponent },
