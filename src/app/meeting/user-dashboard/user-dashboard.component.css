@@ -1,0 +1,434 @@
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 2;
+}
+
+.width-200-toggle {
+  width: 200px;
+}
+
+.nav-open .nav-overlay {
+  visibility: visible;
+  opacity: 1;
+}
+
+.width-0-toggle {
+  width: 0px;
+}
+
+.hide-menu {
+  width: 0px;
+}
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background-color: rgb(233, 226, 226);
+  height: 70px;
+  font-size: 1.125rem;
+  padding: 40px 20px;
+}
+
+.navbar-brand {
+  font-size: 1.75rem;
+}
+
+.navbar-shadow {
+  animation-name: nav-animation;
+  animation-duration: 0.1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes nav-animation {
+  0% {
+    box-shadow: 0px 0px 0px rgb(255, 255, 255);
+    background-color: rgb(233, 226, 226);
+  }
+
+  100% {
+    box-shadow: 0.5px 0.5px 3px black;
+    background-color: rgb(209, 203, 203);
+  }
+}
+
+a {
+  font-family: 'ZCOOL KuaiLe', cursive;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 1.125rem;
+}
+
+.main>ul>li>a {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  text-decoration: none;
+  color: rgb(66, 64, 64);
+  cursor: pointer;
+  user-select: none;
+}
+
+.main>ul>li>a:hover {
+  color: rgb(0, 0, 0);
+}
+
+.sidenav-collapse {
+  position: fixed;
+  z-index: 3;
+  background-color: rgb(220, 225, 230);
+  transition: 0.5s;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-top: 25px;
+  color: rgb(14, 13, 13);
+  top: 0;
+  bottom: 0;
+}
+
+.sidenav-link {
+  display: flex;
+  align-items: center;
+  color: #66666666;
+  padding: 12px 7px;
+  font-size: 1.35rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  text-decoration: none;
+  color: rgb(27, 27, 27);
+}
+
+.sidenav-link>span {
+  margin-right: 15px;
+}
+
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.calendar-group__1 {
+  text-align: left;
+}
+
+.calendar-group__2 {
+  text-align: right;
+  user-select: none;
+}
+
+.left {
+  font-size: clamp(0.5rem, 3vw, 1.25rem);
+  cursor: pointer;
+  user-select: none;
+  border-radius: 50%;
+  padding: 1%;
+  box-shadow: 0px 2px 8px 0px rgba(29, 0, 10, 0.2), 0px 1px 2px 0px rgba(29, 0, 10, 0.2);
+}
+
+.left:hover {
+  background-color: rgb(240, 234, 234);
+}
+
+.date-info {
+  font-size: clamp(0.6rem, 3vw, 1.5rem);
+  font-weight: bolder;
+  user-select: none;
+  color: rgb(44, 44, 219)
+}
+
+.right {
+  font-size: clamp(0.5rem, 3vw, 1.25rem);
+  cursor: pointer;
+  user-select: none;
+  border-radius: 50%;
+  padding: 1%;
+  box-shadow: 0px 2px 8px 0px rgba(29, 0, 10, 0.2), 0px 1px 2px 0px rgba(29, 0, 10, 0.2);
+}
+
+.right:hover {
+  background-color: rgba(240, 234, 234, 0.9);
+  border-radius: 50%;
+}
+
+.left-disabled {
+  pointer-events: none;
+  background-color: rgb(212, 212, 212);
+}
+
+.right-disabled {
+  pointer-events: none;
+  background-color: rgb(212, 212, 212);
+}
+
+.calendar__btn {
+  text-align: center;
+  color: black;
+  background-color: rgb(202, 199, 199);
+  font-weight: 700;
+  font-size: clamp(0.55rem, 3vw, 1rem);
+  border-radius: 5px;
+  font-weight: bolder;
+  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2), 0px 2px 3px 0px rgba(29, 0, 10, 0.2);
+}
+
+.calendar__btn_2 {
+  text-align: center;
+  color: black;
+  background-color: rgb(202, 199, 199);
+  font-weight: 700;
+  font-size: clamp(0.25rem, 3vw, 0.9rem);
+  border-radius: 5px;
+  font-weight: bolder;
+  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2), 0px 2px 3px 0px rgba(29, 0, 10, 0.2);
+}
+
+.calendar__btn_3 {
+  width: 100%;
+  text-align: left;
+  color: black;
+  font-weight: 700;
+  padding: 0.75rem 0.35rem;
+  font-size: clamp(0.25rem, 3vw, 0.9rem);
+  font-weight: bolder;
+  border: #fff;
+  background-color: rgb(241, 239, 239);
+  cursor: pointer;
+  transition: background 0.8s;
+}
+
+.calendar__btn_3:hover {
+  background: rgb(172, 169, 5) radial-gradient(circle, transparent 1%, rgb(172, 169, 5) 1%) center/15000%;
+}
+
+.calendar__btn_4 {
+  width: 60%;
+  text-align: center;
+  color: black;
+  background-color: rgb(202, 199, 199);
+  font-weight: 700;
+  font-size: clamp(0.25rem, 3vw, 0.9rem);
+  border-radius: 5px;
+  font-weight: bolder;
+  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2), 0px 2px 3px 0px rgba(29, 0, 10, 0.2);
+}
+
+.calendar__sub {
+  margin-left: auto;
+}
+
+.dropdown-menu {
+  padding: 0;
+  border-radius: 2px;
+  background-color: rgb(241, 239, 239);
+  box-shadow: 0px 8px 8px 0px rgba(29, 0, 10, 0.2), 0px 1px 2px 0px rgba(29, 0, 10, 0.2), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-modal-button {
+  text-align: center;
+  display: block;
+  width: auto;
+  margin: 3rem auto;
+  border: none;
+  position: relative;
+  color: black;
+  background-color: rgb(202, 199, 199);
+  font-weight: bolder;
+  font-size: clamp(0.1rem, 5vw, 1.2rem);
+  padding: 0.5em 2.75em;
+  border-radius: 5px;
+  font-weight: bolder;
+  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2), 0px 2px 3px 0px rgba(29, 0, 10, 0.2);
+  overflow: hidden;
+}
+
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+.ripple:hover {
+  color: black;
+  background: rgb(172, 169, 5) radial-gradient(circle, transparent 1%, rgb(172, 169, 5) 1%) center/15000%;
+}
+
+.ripple:active {
+  background-color: rgb(228, 195, 5);
+  ;
+  background-size: 100%;
+  transition: background 0s;
+}
+
+.main-container {
+  --warm-clr1: #dbba00;
+  --warm-clr2: #292728;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(180deg, var(--warm-clr1), var(--warm-clr2));
+}
+
+.calendar-container {
+  max-width: 90vmax;
+  height: 78vmin;
+  background-color: #fff;
+  padding: 2.5rem 1rem;
+  border-radius: 0.55rem;
+  margin-top: 8rem;
+  box-shadow: 0px 4px 20px 0px rgba(29, 0, 10, 0.2), 0px 2px 8px 0px rgba(29, 0, 10, 0.2);
+  overflow-y: scroll;
+}
+
+.sub-container {
+  position: relative;
+  top: 5px;
+  width: 100%;
+  height: 118%;
+}
+
+.modal-title {
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  font-size: clamp(1rem, 4vw, 1.75rem);
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+.modal-body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.modal-row {
+  margin-bottom: -15px;
+}
+
+.modal-info {
+  width: auto;
+  font-weight: bolder;
+  font-size: clamp(0.75rem, 4vw, 1.25rem);
+}
+
+.modal-subinfo {
+  font-weight: bolder;
+  font-size: clamp(0.65rem, 4vw, 1.15rem);
+  margin-top: 2px;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.view-buttons {
+  font-weight: 700;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(99, 105, 112);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(90, 97, 105);
+}
+
+@media screen and (max-width:520px) {
+  .calendar-container {
+    max-width: 90vmin;
+    height: 75vmax;
+    margin-bottom: 10px;
+  }
+
+}
+
+@media screen and (max-width:576px) {
+  .calendar-container {
+    overflow-x: scroll;
+  }
+}
+
+@media screen and (max-width:785px) {
+  .calendar-container {
+    max-width: 90vmin;
+    height: 75vmax;
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width:440px) {
+  .navbar {
+    background-color: rgb(233, 227, 227);
+    height: 70px;
+    padding: 10px 20px;
+  }
+
+  .logo {
+    width: 0px;
+    height: 0px;
+    display: none;
+  }
+
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+}
+
+@media screen and (max-width:992px) {
+  .calendar-group__1 {
+    text-align: center;
+  }
+
+  .calendar-group__2 {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .calendar-modal-button {
+    margin: 1rem auto;
+  }
+}
+
+@media screen and (min-width:441px) and (max-width: 992px) {
+  .navbar {
+    background-color: rgb(233, 227, 227);
+    height: 70px;
+    padding: 10px 20px;
+  }
+
+  .navbar-brand {
+    font-size: 1.55rem;
+  }
+
+  a {
+    font-size: 0.85rem;
+  }
+}
+
+h3 {
+  font-weight: bolder;
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* uncomment this to see the arrangement of all elements */
+
+/* * {
+    border: 1px solid rgb(153, 0, 255) !important;
+} */

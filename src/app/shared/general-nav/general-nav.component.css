@@ -101,6 +101,7 @@ a {
   font-weight: bolder;
   text-decoration: none;
   color: rgb(27, 27, 27);
+  cursor: pointer;
 }
 
 .sidenav-link>span {

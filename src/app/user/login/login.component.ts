@@ -139,7 +139,7 @@ export class LoginComponent implements OnInit {
   }// end of loginFunction
 
   navigateToUserDashboard = () => {
-    this.router.navigate(['normal-dashboard'])
+    this.router.navigate(['user-dashboard'])
   }
 
   navigateToUserSelection = () => {
