@@ -1,0 +1,68 @@
+.slider-bar {
+  position: fixed;
+  top: 80px;
+  width: 100%;
+  height: 4px;
+  overflow-x: hidden;
+}
+
+.line-bar {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: #68665d;
+  opacity: 0.6;
+}
+
+.subline-bar {
+  position: absolute;
+  background: #e6cb1d;
+  height: 4px;
+}
+
+.inc {
+  animation: increase 2s infinite;
+}
+
+.dec {
+  animation: decrease 2s 0.5s infinite;
+}
+
+@keyframes increase {
+  from {
+    left: -5%;
+    width: 5%;
+  }
+
+  to {
+    left: 110%;
+    width: 100%;
+  }
+}
+
+@keyframes decrease {
+  from {
+    left: -80%;
+    width: 80%;
+  }
+
+  to {
+    left: 100%;
+    width: 10%;
+  }
+}
+
+@media screen and (max-width:992px) {
+  .slider-bar {
+    top: 70px;
+    height: 3px;
+  }
+
+  .line-bar {
+    height: 3px;
+  }
+
+  .subline-bar {
+    height: 3px;
+  }
+}

@@ -27,4 +27,12 @@ export class MeetingService {
     return this.http.post(`${this.url}/api/v1/meeting/user-meetings`, params);
   } // end of getAllUserDetails
 
+  public getAllUsers(data: any): Observable<any> {
+    const params = new HttpParams()
+      .set('authToken', data.authToken)
+      .set('userId', data.userId)
+
+    return this.http.post(`${this.url}/api/v1/user/view/all-users`, params);
+  } // end of getAllUserDetails
+
 }

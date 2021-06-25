@@ -1,0 +1,36 @@
+<app-navbar [navSwitcher]="2" (logoutClick)="logout()"></app-navbar>
+<section class="main-container">
+    <div class="container-fluid user-container">
+        <div class="sub-container">
+            <div class="row">
+                <div class="col-sm-12 search">
+                    <input type="text" [(ngModel)]="term" size="100">
+                </div>
+                <div class="container text-center mt-5" *ngIf="loading">
+                    <div class="spinner-grow text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 mt-5 mt-sm-5 text-center font-weight-normal user-select-none"
+                    *ngIf="none && !loading">
+                    <h1><b>There are no users 🙁</b></h1>
+                </div>
+                <div *ngFor="let user of allUsers |filter:term"
+                    class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-2 mt-sm-4">
+                    <div class="card user-section ripple text-center" style="border-radius:10px;" *ngIf="!none"
+                        (click)="navigateToUserCalendar(user.userId)">
+                        <div class="card-body">
+                            <div class="full-name">
+                                {{user.firstName}} {{user.lastName}} - <span class="user-name">u/
+                                    {{user.userName}}</span>
+                            </div>
+                            <div class="mobile-number">
+                                {{user.mobileNumber}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

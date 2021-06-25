@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
@@ -30,8 +30,10 @@ const colors: any = {
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
-  styleUrls: ['./user-dashboard.component.css']
+  styleUrls: ['./user-dashboard.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
+
 export class UserDashboardComponent implements OnInit {
 
   // other varaibles
@@ -43,6 +45,7 @@ export class UserDashboardComponent implements OnInit {
   public key: any;
   public rightArrowValue: any;
   public leftArrowValue: any;
+  public loading: Boolean = false;
 
   // variables to store screen sizes
   public status?: Boolean;
@@ -115,10 +118,16 @@ export class UserDashboardComponent implements OnInit {
     if (this.checkStatus() && this.userInfo.adminStatus === false) {
 
       //getting all meeting details to populate calendar
-      this.getMeetingDetails();
+      this.loading = true;
+      setTimeout(() => {
+        this.getMeetingDetails();
+      }, 2000);
 
       //check for a meeting for every 5 seconds
       this.scanMeetings();
+
+      // update arrow tooltip
+      this.changeButtonString(1);
 
     }
     else if (this.userInfo.adminStatus === true) {
@@ -256,6 +265,7 @@ export class UserDashboardComponent implements OnInit {
       userId: this.userInfo.userId
     }
     this.meetingService.getMeetingDetails(data).subscribe((apiResult) => {
+      this.loading = false;
       if (apiResult.status === 200) {
         this.allMeetings = apiResult.data;
         this.meetingInstances.splice(0, this.meetingInstances.length)

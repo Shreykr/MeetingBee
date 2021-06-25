@@ -1,4 +1,5 @@
 <app-navbar [navSwitcher]="2" (logoutClick)="logout()"></app-navbar>
+<app-loading-bar *ngIf="loading"></app-loading-bar>
 <section class="main-container">
     <div class="container-fluid calendar-container">
         <div class="sub-container">
@@ -65,13 +66,14 @@
                         (click)="checkYear()" [(viewDate)]="viewDate">Today</button>
                     <span class="material-icons-outlined left ml-3 mr-1 mt-2" mwlCalendarPreviousView [view]="view"
                         [ngClass]="{'left-disabled':leftArrowState}" (click)="checkYear()" [(viewDate)]="viewDate"
-                        (viewDateChange)="closeOpenMonthViewDay()" data-toggle="tooltip" title={{leftArrowValue}}>
+                        (viewDateChange)="closeOpenMonthViewDay()" placement="bottom" ngbTooltip={{leftArrowValue}}
+                        tooltipClass="tooltip">
                         arrow_back_ios
                     </span>
                     <span class="material-icons-outlined right ml-1 mr-3 mt-2" mwlCalendarNextView
                         [ngClass]="{'right-disabled':rightArrowState}" [view]="view" (click)="checkYear()"
-                        [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" data-toggle="tooltip"
-                        title={{rightArrowValue}}>
+                        [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" placement="bottom"
+                        ngbTooltip={{rightArrowValue}} tooltipClass="tooltip">
                         arrow_forward_ios
                     </span>
                     <span class="date-info" (click)="checkYear()">

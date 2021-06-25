@@ -1,0 +1,133 @@
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap
+}
+
+.ripple {
+  background-position: center;
+  transition: background .8s
+}
+
+.ripple:hover {
+  color: #000;
+  background: #aca905 radial-gradient(circle, transparent 1%, #aca905 1%) center/15000%
+}
+
+.ripple:active {
+  background-color: #e4c305;
+  background-size: 100%;
+  transition: background 0s
+}
+
+.main-container {
+  --warm-clr1: #dbba00;
+  --warm-clr2: #292728;
+  font-family: Montserrat, sans-serif;
+  background: linear-gradient(180deg, var(--warm-clr1), var(--warm-clr2))
+}
+
+.user-container {
+  max-width: 90vmax;
+  height: 78vmin;
+  background-color: #fff;
+  padding: 2.5rem 1rem;
+  border-radius: .55rem;
+  margin-top: 8rem;
+  box-shadow: 0 4px 20px 0 rgba(29, 0, 10, .2), 0 2px 8px 0 rgba(29, 0, 10, .2);
+  overflow-y: scroll
+}
+
+.sub-container {
+  position: relative;
+  top: 5px;
+  width: 100%
+}
+
+input {
+  width: 100%;
+  height: clamp(10px, 6vw, 50px);
+  font-size: clamp(2px, 4vw, 25px);
+  font-weight: bolder;
+  padding: 10px;
+  margin-left: 2px;
+  margin-right: 2px
+}
+
+.user-section {
+  width: 100%;
+  margin-top: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px 0 rgba(29, 0, 10, .2), 0 2px 3px 0 rgba(29, 0, 10, .2);
+  cursor: pointer;
+  padding: 15px 5px;
+  padding-bottom: 0;
+  font-weight: bolder;
+  background-color: #dfdfdf
+}
+
+.user-section:hover {
+  -ms-transform: scale(1.015);
+  -webkit-transform: scale(1.015);
+  transform: scale(1.015)
+}
+
+.full-name {
+  position: relative;
+  top: -10px;
+  font-size: clamp(5px, 3vw, 22.5px);
+  margin-bottom: 15px
+}
+
+.search {
+  padding-right: 0;
+  padding-left: 0
+}
+
+.user-name {
+  font-size: clamp(3px, 3vw, 17px)
+}
+
+.row {
+  margin-left: 10px;
+  margin-right: 10px
+}
+
+.mobile-number {
+  font-size: clamp(1px, 2vw, 15.5px);
+  margin-bottom: 15px;
+  letter-spacing: 5px
+}
+
+::-webkit-scrollbar {
+  width: 5px
+}
+
+::-webkit-scrollbar-thumb {
+  background: #636970;
+  border-radius: 10px
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a6169
+}
+
+@media screen and (max-width:576px) {
+  .user-container {
+    overflow-x: scroll
+  }
+}
+
+@media screen and (max-width:1025px) {
+  .user-container {
+    max-width: 90vmin;
+    height: 75vmax;
+    margin-bottom: 10px
+  }
+}
+
+/* uncomment this to see the arrangement of all elements */
+
+/* * {
+  border: 1px solid rgb(153, 0, 255) !important;
+} */
