@@ -1,27 +1,4 @@
-<nav class="nav" [ngClass]="status ?'nav-open':''">
-    <div id="sidenav" class="sidenav-collapse" [ngClass]="status ?'width-200-toggle':'width-0-toggle'">
-        <a class="sidenav-link" (click)="logout()"><span class="material-icons-outlined">logout</span>Logout</a>
-    </div>
-    <div class="nav-overlay" (click)="status=!status"></div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light" [ngClass]="{'navbar-shadow':detectScroll}">
-    <div class="container-fluid">
-        <a class="navbar-brand" [routerLink]="['/home']">
-            <img src="assets/bee.png" alt="" width="35" height="30" class="d-inline-block align-text-top logo"
-                style="font-family: 'ZCOOL KuaiLe', cursive;font-size: 10px;">
-            MeetingBee</a>
-        <button class="navbar-toggler" type="button" (click)="status=!status">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse main">
-            <ul class=" navbar-nav  ml-auto" style="--bs-scroll-height: 100px;">
-                <li class="nav-item">
-                    <a class="nav-link" (click)="logout()">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<app-navbar [navSwitcher]="2" (logoutClick)="logout()"></app-navbar>
 <section class="main-container">
     <div class="container-fluid calendar-container">
         <div class="sub-container">

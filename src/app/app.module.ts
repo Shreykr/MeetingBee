@@ -8,10 +8,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './general/home/home.component';
-import { GeneralNavComponent } from './shared/general-nav/general-nav.component';
 import { ErrorComponent } from './general/error/error.component';
 import { LoginComponent } from './user/login/login.component';
 import { SignupComponent } from './user/signup/signup.component';
@@ -23,7 +23,6 @@ import { UserDashboardComponent } from './meeting/user-dashboard/user-dashboard.
   declarations: [
     AppComponent,
     HomeComponent,
-    GeneralNavComponent,
     ErrorComponent,
     LoginComponent,
     SignupComponent,
@@ -36,6 +35,7 @@ import { UserDashboardComponent } from './meeting/user-dashboard/user-dashboard.
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
     NgbModalModule,
     CalendarModule.forRoot({
       provide: DateAdapter,

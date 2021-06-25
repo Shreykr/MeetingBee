@@ -1,3 +1,7 @@
+.introduction {
+  position: relative;
+}
+
 a {
   text-decoration: none;
 }
@@ -63,6 +67,7 @@ a {
 }
 
 .features {
+  position: relative;
   margin-top: 100px;
   margin-bottom: 80px;
 }
@@ -256,7 +261,6 @@ footer>h5 {
   }
 }
 
-
 /* * {
     border: 1px solid rgb(153, 0, 255) !important;
-  } */
+} */

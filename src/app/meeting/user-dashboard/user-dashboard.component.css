@@ -368,6 +368,34 @@ p {
   }
 }
 
+@media screen and (max-width:992px) {
+  .calendar-group__1 {
+    text-align: center;
+  }
+
+  .calendar-group__2 {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .calendar-modal-button {
+    margin: 1rem auto;
+  }
+
+  .slider-bar {
+    top: 70px;
+    height: 3px;
+  }
+
+  .line-bar {
+    height: 3px;
+  }
+
+  .subline-bar {
+    height: 3px;
+  }
+}
+
 @media screen and (max-width:440px) {
   .navbar {
     background-color: rgb(233, 227, 227);
@@ -383,21 +411,6 @@ p {
 
   .navbar-brand {
     font-size: 1.25rem;
-  }
-}
-
-@media screen and (max-width:992px) {
-  .calendar-group__1 {
-    text-align: center;
-  }
-
-  .calendar-group__2 {
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  .calendar-modal-button {
-    margin: 1rem auto;
   }
 }
 

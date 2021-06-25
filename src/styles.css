@@ -103,10 +103,10 @@ html {
 .cal-month-view .cal-day-badge {
   width: clamp(7px, 1vw, 15px);
   height: clamp(7px, 1vw, 15px);
-  margin-top: 18px;
+  margin-top: 8px;
   margin-left: 3px;
   display: inline-block;
-  font-size: clamp(7px, 1vw, 13px);
+  font-size: clamp(7px, 1vw, 14px);
   font-weight: 700;
   line-height: 1;
   text-align: center;
