@@ -37,7 +37,7 @@ export class UserSelectionComponent implements OnInit {
       this.loading = true;
       setTimeout(() => {
         this.getAllUsers();
-      }, 1750);
+      }, 1250);
     }
     else if (this.userInfo.adminStatus === false) {
       this.router.navigate(['/not-found']);

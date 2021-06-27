@@ -42,7 +42,6 @@ export class ResetPasswordComponent implements OnInit {
       firstCheck: true
     }
     this.appService.checkAuth(data).subscribe((apiResult) => {
-      console.log(apiResult)
       if (apiResult.status === 200) {
         this.toastr.success("Active link, please enter new password", '', { timeOut: 3000 });
       }
@@ -94,7 +93,6 @@ export class ResetPasswordComponent implements OnInit {
     }
     this.appService.editUserPassword(data).subscribe((apiResult) => {
       if (apiResult.status === 200) {
-        console.log("ggwp")
         this.toastr.success(apiResult.message)
         setTimeout(() => {
           this.goToLogin();

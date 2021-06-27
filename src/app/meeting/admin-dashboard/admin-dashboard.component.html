@@ -14,7 +14,7 @@
                     <div class="container-fluid meeting-container">
                         <div class="row modal-row text-muted justify-content-center ">
                             <p class="modal-info ">Host:</p><span
-                                class="modal-subinfo text-center ">{{modalData?.event['adminName']}}</span>
+                                class="modal-subinfo text-center text-primary">{{modalData?.event['adminName']}}</span>
                         </div>
                         <form [formGroup]="updateMeetingForm" class="meeting">
                             <div class=" meeting__group" [ngClass]="{'meeting__focused':titleFocused}">
@@ -136,7 +136,7 @@
                     <div class="container-fluid meeting-container">
                         <div class="row modal-row text-muted justify-content-center ">
                             <p class="modal-info ">Host:</p><span
-                                class="modal-subinfo text-center ">{{userInfo.firstName}}
+                                class="modal-subinfo text-center text-primary">{{userInfo.firstName}}
                                 {{userInfo.lastName}}</span>
                         </div>
                         <form [formGroup]="createMeetingForm" (ngSubmit)="addMeetingFunction(createMeetingForm)"

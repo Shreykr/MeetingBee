@@ -720,7 +720,7 @@ export class AdminDashboardComponent implements OnInit {
         this.loading = true;
         setTimeout(() => {
           this.getMeetingDetails();
-        }, 1200);
+        }, 800);
         setTimeout(() => {
           //notification alert using scockets
           let meetingStartDate = new Date(this.createMeetingForm.controls.meetingStart.value).toLocaleDateString()
@@ -776,7 +776,7 @@ export class AdminDashboardComponent implements OnInit {
         this.loading = true;
         setTimeout(() => {
           this.getMeetingDetails();
-        }, 1200);
+        }, 800);
         setTimeout(() => {
           //notification alert using scockets
           let meetingStartDate = new Date(this.updateMeetingForm.controls.meetingUpdateStart.value).toLocaleDateString()
@@ -819,7 +819,7 @@ export class AdminDashboardComponent implements OnInit {
         this.loading = true;
         setTimeout(() => {
           this.getMeetingDetails();
-        }, 1200);
+        }, 800);
         setTimeout(() => {
           //notification alert using scockets
           let notificationObject = {

@@ -13,8 +13,8 @@
                 <div class="modal-body">
                     <pre>
                         <div class="modal-row">
-                            <p class="modal-info ">Your meeting will start within a minute !</p>
-                            <p class="modal-info text-left text-primary">Meeting Title<span class="modal-subinfo text-dark">: {{modalData?.event['meetingTitle']}}</span></p>
+                            <p class="modal-info text-center ">Your meeting will start within a minute !</p>
+                            <p class="modal-info text-center text-dark">Meeting Title<span class="modal-subinfo text-muted">: {{modalData?.event['meetingTitle']}}</span></p>
                         </div>
                     </pre>
                 </div>
@@ -39,23 +39,23 @@
                 </div>
                 <div class="modal-body">
                     <pre>
-                        <div class="row modal-row text-muted justify-content-center ">
-                            <p class="modal-info text-primary">Host</p><span class="modal-subinfo text-center ">: {{modalData?.event['adminName']}}</span>
+                        <div class="row modal-row text-primary justify-content-center ">
+                            <p class="modal-info text-dark">Host</p><span class="modal-subinfo text-center ">: {{modalData?.event['adminName']}}</span>
                         </div>
                         <div class="row modal-row">
-                            <p class="modal-info text-primary">Title</p><span class="modal-subinfo text-dark">: {{ modalData?.event['title']}}</span>
+                            <p class="modal-info text-dark">Title</p><span class="modal-subinfo text-muted">: {{ modalData?.event['title']}}</span>
                         </div>
                         <div class="row modal-row">
-                            <p class="modal-info text-left text-primary">Description</p><span class="modal-subinfo text-dark">: {{modalData?.event['meetingDescription']}}</span>
+                            <p class="modal-info text-left text-dark">Description</p><span class="modal-subinfo text-muted">: {{modalData?.event['meetingDescription']}}</span>
                         </div>
                         <div class="row modal-row">
-                            <p class="modal-info text-left text-primary">Location</p><span class="modal-subinfo text-dark">: {{modalData?.event['meetingLocation']}}</span>
+                            <p class="modal-info text-left text-dark">Location</p><span class="modal-subinfo text-muted">: {{modalData?.event['meetingLocation']}}</span>
                         </div>
                         <div class="row modal-row">
-                            <p class="modal-info text-left text-primary">Start</p><span class="modal-subinfo text-dark">: {{ modalData?.event.start|date:'medium'}}</span>
+                            <p class="modal-info text-left text-dark">Start</p><span class="modal-subinfo text-muted">: {{ modalData?.event.start|date:'medium'}}</span>
                         </div>
                         <div class="row modal-row">
-                            <p class="modal-info text-left text-primary">End</p><span class="modal-subinfo text-dark">: {{ modalData?.event.end|date:'medium'}}</span>
+                            <p class="modal-info text-left text-dark">End</p><span class="modal-subinfo text-muted">: {{ modalData?.event.end|date:'medium'}}</span>
                         </div>
                     </pre>
                 </div>

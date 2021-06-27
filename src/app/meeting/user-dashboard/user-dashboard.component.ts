@@ -359,8 +359,6 @@ export class UserDashboardComponent implements OnInit {
   // alert 1 minute before meeting starts
   meetingReminder() {
     for (let meeting of this.allMeetings) {
-      // this.modal.open(this.meetingAlert, { size: 'lg' });
-      // break;
       if (isToday(meeting['start']) && (isThisMinute(new Date(((meeting['start']).getTime()) - 60000)) && meeting['reminderStatus'])) {
         this.modalData = {
           action: 'Clicked',
