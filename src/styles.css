@@ -1,5 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
+.tooltip .tooltip-inner {
+  opacity: 0.85;
+}
+
+.tooltip .arrow::before {
+  opacity: 0.85;
+}
+
 body::-webkit-scrollbar {
   width: 1em;
 }

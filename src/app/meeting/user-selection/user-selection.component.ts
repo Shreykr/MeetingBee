@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { ToastrService } from 'ngx-toastr';
@@ -17,20 +17,6 @@ export class UserSelectionComponent implements OnInit {
   public term: any;
   public loading: Boolean = false;
   public none: Boolean = false;
-
-  // variables to store screen sizes
-  public status?: Boolean;
-  public scrHeight = window.innerHeight;
-  public scrWidth = window.innerWidth;
-  public detectScroll!: Boolean;
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    this.detectScroll = true;
-    if (scrollY === 0) {
-      this.detectScroll = false;
-    }
-  }
 
   // variables holding session details
   authToken: any;
@@ -101,7 +87,11 @@ export class UserSelectionComponent implements OnInit {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.router.navigate(['server-error', 500]);
       }
-    })
+    }, (err) => {
+      this.deleteCookies();
+      this.router.navigate(['server-error', 500]);
+      this.toastr.error('Some error occured', '', { timeOut: 1500 });
+    });
   } // end of getAllUsers
 
   // show the calendar/events of the selected user
@@ -144,5 +134,4 @@ export class UserSelectionComponent implements OnInit {
       this.toastr.error('Some error occured', '', { timeOut: 1500 });
     });
   } // end of logout
-
 }

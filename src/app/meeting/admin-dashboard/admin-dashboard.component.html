@@ -1,0 +1,308 @@
+<app-navbar [navSwitcher]="3" (logoutClick)="logout()"></app-navbar>
+<app-loading-bar *ngIf="loading"></app-loading-bar>
+<section class="main-container">
+    <div class="container-fluid calendar-container">
+        <div class="sub-container">
+            <ng-template #modalContent let-close="close">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Meeting Details</h5>
+                    <button type="button" class="close" (click)="close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid meeting-container">
+                        <div class="row modal-row text-muted justify-content-center ">
+                            <p class="modal-info ">Host:</p><span
+                                class="modal-subinfo text-center ">{{modalData?.event['adminName']}}</span>
+                        </div>
+                        <form [formGroup]="updateMeetingForm" class="meeting">
+                            <div class=" meeting__group" [ngClass]="{'meeting__focused':titleFocused}">
+                                <label for="title" class="modal-info meeting__label">Meeting Title</label>
+                                <input id="title" class="meeting__input meeting__input-title"
+                                    (focus)="toggleTitleFocus2()" (focusout)="toggleTitleFocus2()" type="text"
+                                    name="title" formControlName="meetingUpdateTitle"
+                                    [ngClass]="{ 'has-danger': ((updateMeetingForm.get('meetingUpdateTitle')!.invalid && updateMeetingForm.get('meetingUpdateTitle')!.dirty)||(updateMeetingForm.get('meetingUpdateTitle')!.touched && !updateMeetingForm.get('meetingUpdateTitle')!.pristine)), 'has-success': updateMeetingForm.get('meetingUpdateTitle')!.valid && updateMeetingForm.get('meetingUpdateTitle')!.dirty }"
+                                    placement="top" ngbTooltip="Max 50 characters" tooltipClass="tooltip" />
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateTitle')!.hasError('pattern') && !secondaryTitleFocused">
+                                <p class="error-msg-p">Enter a valid title</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateTitle')!.hasError('required') && updateMeetingForm.get('meetingUpdateTitle')!.touched && !titleFilled">
+                                <p class="error-msg-p">Title Required</p>
+                            </div>
+                            <div class=" meeting__group" [ngClass]="{'meeting__focused':descriptionFocused}">
+                                <label for="Description" class="modal-info meeting__label">Meeting Description</label>
+                                <input id="Description" class="meeting__input meeting__input-Description"
+                                    (focus)="toggleDescriptionFocus2()" (focusout)="toggleDescriptionFocus2()"
+                                    type="text" name="Description" formControlName="meetingUpdateDescription"
+                                    [ngClass]="{ 'has-danger': ((updateMeetingForm.get('meetingUpdateDescription')!.invalid && updateMeetingForm.get('meetingUpdateDescription')!.dirty)||(updateMeetingForm.get('meetingUpdateDescription')!.touched && !updateMeetingForm.get('meetingUpdateDescription')!.pristine)), 'has-success': updateMeetingForm.get('meetingUpdateDescription')!.valid && updateMeetingForm.get('meetingUpdateDescription')!.dirty }"
+                                    placement="top" ngbTooltip="Max 120 characters" tooltipClass="tooltip" />
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateDescription')!.hasError('pattern') && !secondaryDescriptionFocused">
+                                <p class="error-msg-p">Enter a valid Description</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateDescription')!.hasError('required') && updateMeetingForm.get('meetingUpdateDescription')!.touched && !descriptionFilled">
+                                <p class="error-msg-p">Description Required</p>
+                            </div>
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':locationFocused}">
+                                <label for="location" class="meeting__label">Meeting Location</label>
+                                <input id="location" class="meeting__input" (focus)="toggleLocationFocus2()"
+                                    (focusout)="toggleLocationFocus2()" type="text" name="location"
+                                    formControlName="meetingUpdateLocation"
+                                    value="{{modalData?.event['meetingLocation']}}" [ngClass]="{
+                                            'has-danger': ((updateMeetingForm.get('meetingUpdateLocation')!.invalid && updateMeetingForm.get('meetingUpdateLocation')!.dirty)||(updateMeetingForm.get('meetingUpdateLocation')!.touched && !updateMeetingForm.get('meetingUpdateLocation')!.pristine)), 
+                                            'has-success': updateMeetingForm.get('meetingUpdateLocation')!.valid && updateMeetingForm.get('meetingUpdateLocation')!.dirty
+                                        }" placement="top" ngbTooltip="Max 30 characters" tooltipClass="tooltip" />
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateLocation')!.hasError('pattern') && !secondaryLocationFocused">
+                                <p class="error-msg-p">Enter a valid Location</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateLocation')!.hasError('required') && updateMeetingForm.get('meetingUpdateLocation')!.touched && !locationFilled">
+                                <p class="error-msg-p">Location Required</p>
+                            </div>
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':startTimeFocused}">
+                                <label for="start-time" class="meeting__label">Start Time</label>
+                                <input id="start-time" class="meeting__input" (focus)="toggleStartTimeFocus2()"
+                                    (focusout)="toggleStartTimeFocus2()" (change)="checkStartDate2()" name="start-time"
+                                    formControlName="meetingUpdateStart" value="{{
+                                        modalData?.event.start|date:'medium'}}" [ngClass]="{
+                                            'has-danger': ((updateMeetingForm.get('meetingUpdateStart')!.invalid && updateMeetingForm.get('meetingUpdateStart')!.dirty)||(updateMeetingForm.get('meetingUpdateStart')!.touched && !updateMeetingForm.get('meetingUpdateStart')!.pristine)||startResult), 
+                                            'has-success': updateMeetingForm.get('meetingUpdateStart')!.valid && updateMeetingForm.get('meetingUpdateStart')!.dirty && !startResult
+                                        }" [type]="typeName3" />
+                            </div>
+                            <div class="error-msg" *ngIf="startTimeFilled && startResult">
+                                <p class="error-msg-p">Start time should be greater than current time</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateStart')!.hasError('required') && updateMeetingForm.get('meetingUpdateStart')!.touched && !startTimeFilled">
+                                <p class="error-msg-p">Start time Required</p>
+                            </div>
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':endTimeFocused,
+                            'disabledEnd':!startTimeFilled||startResult}">
+                                <label for="end-time" class="meeting__label">End Time</label>
+                                <input id="end-time" class="meeting__input" (focus)="toggleEndTimeFocus2()"
+                                    (focusout)="toggleEndTimeFocus2()" (change)="checkEndDate2()" name="end-time"
+                                    formControlName="meetingUpdateEnd" value="{{
+                                        modalData?.event.end|date:'medium'}}" [ngClass]="{
+                                            'has-danger': ((updateMeetingForm.get('meetingUpdateEnd')!.invalid && updateMeetingForm.get('meetingUpdateEnd')!.dirty)||(updateMeetingForm.get('meetingUpdateEnd')!.touched && !updateMeetingForm.get('meetingUpdateEnd')!.pristine)||(endResult && createMeetingForm.get('meetingEnd')!.touched)), 
+                                            'has-success': updateMeetingForm.get('meetingUpdateEnd')!.valid && updateMeetingForm.get('meetingUpdateEnd')!.dirty && !endResult
+                                        }" [type]="typeName4" />
+                            </div>
+                            <div class="error-msg" *ngIf="endTimeFilled && endResult">
+                                <p class="error-msg-p">End time should be greater than start time</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="updateMeetingForm.get('meetingUpdateEnd')!.hasError('required') && updateMeetingForm.get('meetingUpdateEnd')!.touched && !endTimeFilled">
+                                <p class="error-msg-p">End time Required</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-4 ">
+                                    <button id="update-button"
+                                        [disabled]="!(updateMeetingForm.valid && updateMeetingForm.dirty && !startResult && !endResult)"
+                                        class="meeting__btn ripple" (click)="close()" (click)="resetToggleStates()"
+                                        (click)="updateMeetingFunction()">Update </button>
+                                </div>
+                                <div class="col-lg-3 ">
+                                    <button id="delete-button"
+                                        [disabled]="!(updateMeetingForm.valid && !startResult && !endResult)"
+                                        placement="top" ngbTooltip="Deletes meeting !" tooltipClass="tooltip"
+                                        class="meeting__btn ripple" (click)="close()" (click)="resetToggleStates()"
+                                        (click)="deleteMeetingFunction()"><span class="material-icons-outlined delete">
+                                            delete_outline
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #modalContent2 let-close="close">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Create Meeting</h5>
+                    <button type="button" class="close" (click)="close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid meeting-container">
+                        <div class="row modal-row text-muted justify-content-center ">
+                            <p class="modal-info ">Host:</p><span
+                                class="modal-subinfo text-center ">{{userInfo.firstName}}
+                                {{userInfo.lastName}}</span>
+                        </div>
+                        <form [formGroup]="createMeetingForm" (ngSubmit)="addMeetingFunction(createMeetingForm)"
+                            class="meeting">
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':titleFocused}">
+                                <label for="title" class="meeting__label">Meeting Title</label>
+                                <input id="title" class="meeting__input meeting__input-title"
+                                    (focus)="toggleTitleFocus()" (focusout)="toggleTitleFocus()" type="text"
+                                    name="title" formControlName="meetingTitle" [ngClass]="{
+                                            'has-danger': ((createMeetingForm.get('meetingTitle')!.invalid && createMeetingForm.get('meetingTitle')!.dirty)||(createMeetingForm.get('meetingTitle')!.touched && createMeetingForm.get('meetingTitle')!.pristine)), 
+                                            'has-success': createMeetingForm.get('meetingTitle')!.valid && createMeetingForm.get('meetingTitle')!.dirty
+                                        }" placement="top" ngbTooltip="Max 50 characters" tooltipClass="tooltip" />
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingTitle')!.hasError('pattern') && !secondaryTitleFocused">
+                                <p class="error-msg-p">Enter a valid title</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingTitle')!.hasError('required') && createMeetingForm.get('meetingTitle')!.touched && !titleFilled">
+                                <p class="error-msg-p">Title Required</p>
+                            </div>
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':descriptionFocused}">
+                                <label for="description" class="meeting__label">Meeting Description</label>
+                                <input id="description" class="meeting__input" (focus)="toggleDescriptionFocus()"
+                                    (focusout)="toggleDescriptionFocus()" type="textarea" name="description"
+                                    formControlName="meetingDescription" [ngClass]="{
+                                            'has-danger': ((createMeetingForm.get('meetingDescription')!.invalid && createMeetingForm.get('meetingDescription')!.dirty)||(createMeetingForm.get('meetingDescription')!.touched && createMeetingForm.get('meetingDescription')!.pristine)), 
+                                            'has-success': createMeetingForm.get('meetingDescription')!.valid && createMeetingForm.get('meetingDescription')!.dirty
+                                        }" placement="top" ngbTooltip="Max 120 characters" tooltipClass="tooltip" />
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingDescription')!.hasError('pattern') && !secondaryDescriptionFocused">
+                                <p class="error-msg-p">Enter a valid description</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingDescription')!.hasError('required') && createMeetingForm.get('meetingDescription')!.touched && !descriptionFilled">
+                                <p class="error-msg-p">Description Required</p>
+                            </div>
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':locationFocused}">
+                                <label for="location" class="meeting__label">Meeting Location</label>
+                                <input id="location" class="meeting__input" (focus)="toggleLocationFocus()"
+                                    (focusout)="toggleLocationFocus()" type="text" name="location"
+                                    formControlName="meetingLocation" [ngClass]="{
+                                            'has-danger': ((createMeetingForm.get('meetingLocation')!.invalid && createMeetingForm.get('meetingLocation')!.dirty)||(createMeetingForm.get('meetingLocation')!.touched && createMeetingForm.get('meetingLocation')!.pristine)), 
+                                            'has-success': createMeetingForm.get('meetingLocation')!.valid && createMeetingForm.get('meetingLocation')!.dirty
+                                        }" placement="top" ngbTooltip="Max 30 characters" tooltipClass="tooltip" />
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingLocation')!.hasError('pattern') && !secondaryLocationFocused">
+                                <p class="error-msg-p">Enter a valid Location</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingLocation')!.hasError('required') && createMeetingForm.get('meetingLocation')!.touched && !locationFilled">
+                                <p class="error-msg-p">Location Required</p>
+                            </div>
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':startTimeFocused}">
+                                <label for="start-time" class="meeting__label">Start Time</label>
+                                <input id="start-time" class="meeting__input" (focus)="toggleStartTimeFocus()"
+                                    (focusout)="toggleStartTimeFocus()" (change)="checkStartDate()" name="start-time"
+                                    formControlName="meetingStart" [ngClass]="{
+                                            'has-danger': ((createMeetingForm.get('meetingStart')!.invalid && createMeetingForm.get('meetingStart')!.dirty)||(createMeetingForm.get('meetingStart')!.touched && createMeetingForm.get('meetingStart')!.pristine)||startResult), 
+                                            'has-success': createMeetingForm.get('meetingStart')!.valid && createMeetingForm.get('meetingStart')!.dirty && !startResult
+                                        }" [type]="typeName" />
+                            </div>
+                            <div class="error-msg" *ngIf="startTimeFilled && startResult">
+                                <p class="error-msg-p">Start time should be greater than current time</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingStart')!.hasError('required') && createMeetingForm.get('meetingStart')!.touched && !startTimeFilled">
+                                <p class="error-msg-p">Start time Required</p>
+                            </div>
+                            <div class="meeting__group" [ngClass]="{'meeting__focused':endTimeFocused,
+                            'disabledEnd':!startTimeFilled||startResult}">
+                                <label for="end-time" class="meeting__label">End Time</label>
+                                <input id="end-time" class="meeting__input" (focus)="toggleEndTimeFocus()"
+                                    (focusout)="toggleEndTimeFocus()" (change)="checkEndDate()" name="end-time"
+                                    formControlName="meetingEnd" [ngClass]="{
+                                            'has-danger': ((createMeetingForm.get('meetingEnd')!.invalid && createMeetingForm.get('meetingEnd')!.dirty)||(createMeetingForm.get('meetingEnd')!.touched && createMeetingForm.get('meetingEnd')!.pristine)||(endResult && createMeetingForm.get('meetingEnd')!.touched)), 
+                                            'has-success': createMeetingForm.get('meetingEnd')!.valid && createMeetingForm.get('meetingEnd')!.dirty && !endResult
+                                        }" [type]="typeName2" />
+                            </div>
+                            <div class="error-msg" *ngIf="endTimeFilled && endResult">
+                                <p class="error-msg-p">End time should be greater than start time</p>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="createMeetingForm.get('meetingEnd')!.hasError('required') && createMeetingForm.get('meetingEnd')!.touched && !endTimeFilled">
+                                <p class="error-msg-p">End time Required</p>
+                            </div>
+
+                            <button [disabled]="!(createMeetingForm.valid && !startResult && !endResult)"
+                                id="create-button" type="submit" class="meeting__btn ripple" (click)="close()"
+                                (click)="resetToggleStates()">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="row">
+                <div class="col-12 col-lg-8 calendar-group__1">
+                    <button class="btn calendar__btn_2 ripple mt-2 mt-sm-0 mr-1 mb-2" mwlCalendarToday
+                        (click)="checkYear()" [(viewDate)]="viewDate">Today</button>
+                    <span class="material-icons-outlined left ml-3 mr-1 mt-2" mwlCalendarPreviousView [view]="view"
+                        [ngClass]="{'left-disabled':leftArrowState}" (click)="checkYear()" [(viewDate)]="viewDate"
+                        (viewDateChange)="closeOpenMonthViewDay()" placement="bottom" ngbTooltip={{leftArrowValue}}
+                        tooltipClass="tooltip">
+                        arrow_back_ios
+                    </span>
+                    <span class="material-icons-outlined right ml-1 mr-3 mt-2" mwlCalendarNextView
+                        [ngClass]="{'right-disabled':rightArrowState}" [view]="view" (click)="checkYear()"
+                        [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" placement="bottom"
+                        ngbTooltip={{rightArrowValue}} tooltipClass="tooltip">
+                        arrow_forward_ios
+                    </span>
+                    <span class="date-info" (click)="checkYear()">
+                        {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
+                    </span>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-sm-6 col-lg-3 calendar-group__2 mx-sm-auto mt-sm-4 mt-md-4 mt-lg-2">
+                    <button type="button" class="btn calendar__btn_4  ripple dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        {{dropdownValue}}
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="row calendar__btn_3" (click)="setView(CalendarView.Month)"
+                            [class.active]="view === CalendarView.Month" (click)="checkYear()"
+                            (click)="changeButtonString(1)">Month
+                        </div>
+                        <div class="row calendar__btn_3" (click)="setView(CalendarView.Week)"
+                            [class.active]="view === CalendarView.Week" (click)="checkYear()"
+                            (click)="changeButtonString(2)">Week
+                        </div>
+                        <div class="row calendar__btn_3" (click)="setView(CalendarView.Day)"
+                            [class.active]="view === CalendarView.Day" (click)="checkYear()"
+                            (click)="changeButtonString(3)">Day
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid mt-4 mt-sm-4 mt-md-5">
+                <a class="plus ripple" (click)="createButtonClicked('Clicked')" data-toggle="tooltip"
+                    title="Create Meeting">
+                    <span class="material-icons-outlined plus-icon">
+                        add
+                    </span>
+                </a>
+                <div class="row">
+                    <div class="col-12 col-sm-12">
+                        <div [ngSwitch]="view">
+                            <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events"
+                                [refresh]="refresh" (dayClicked)="changeDay($event.day.date);changeButtonString(3)"
+                                (dayClicked)="checkYear()" (eventClicked)="handleEvent('Clicked', $event.event)">
+                            </mwl-calendar-month-view>
+
+                            <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events"
+                                [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                                (dayHeaderClicked)="changeDay($event.day.date);changeButtonString(3)">
+                            </mwl-calendar-week-view>
+
+                            <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [hourSegments]="2"
+                                [events]="events" [refresh]="refresh"
+                                (eventClicked)="handleEvent('Clicked', $event.event)">
+                            </mwl-calendar-day-view>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

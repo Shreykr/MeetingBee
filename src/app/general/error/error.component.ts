@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -8,21 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ErrorComponent implements OnInit {
 
-  public status?: Boolean;
-  public scrHeight = window.innerHeight;
-  public scrWidth = window.innerWidth;
-  public detectScroll!: Boolean;
   public error404: Boolean = true;
   public error500: Boolean = false;
-  public toggleValue;
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    this.detectScroll = true;
-    if (scrollY === 0) {
-      this.detectScroll = false;
-    }
-  }
+  public toggleValue: any;
 
   constructor(
     public _route: ActivatedRoute,
@@ -40,5 +28,4 @@ export class ErrorComponent implements OnInit {
       this.error500 = false;
     }
   }
-
 }

@@ -36,7 +36,7 @@ export class AppService {
       .set('password', data.password)
 
     return this.http.post(`${this.url}/api/v1/user/signup`, params);
-  } // end of signup function.
+  } // end of signupFunction
 
   public loginFunction(data: any): Observable<any> {
     const params = new HttpParams()
@@ -44,7 +44,7 @@ export class AppService {
       .set('password', data.password);
 
     return this.http.post(`${this.url}/api/v1/user/login`, params);
-  } //end of login function
+  } //end of loginFunction
 
   public editUserPassword(data: any): Observable<any> {
     const params = new HttpParams()
@@ -69,7 +69,7 @@ export class AppService {
       .set('firstCheck', data.firstCheck);
 
     return this.http.post(`${this.url}/api/v1/user/auth-check`, params);
-  }
+  } // end of checkAuth
 
   public userLogout(data: any): Observable<any> {
     const params = new HttpParams()
@@ -77,5 +77,6 @@ export class AppService {
       .set('authToken', data.authToken);
 
     return this.http.post(`${this.url}/api/v1/user/logout`, params);
-  }
+  } // end of userLogout
+
 }

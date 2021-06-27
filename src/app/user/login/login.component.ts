@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -11,20 +11,6 @@ import { Cookie } from 'ng2-cookies/ng2-cookies'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  // variables to store screen sizes
-  public status?: Boolean;
-  public scrHeight = window.innerHeight;
-  public scrWidth = window.innerWidth;
-  public detectScroll!: Boolean;
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    this.detectScroll = true;
-    if (scrollY === 0) {
-      this.detectScroll = false;
-    }
-  }
 
   // to toggle the error state
   public emailFocused: Boolean = false;
@@ -61,7 +47,7 @@ export class LoginComponent implements OnInit {
       this.emailFilled = false;
     }
     else {
-      this.emailFilled = true
+      this.emailFilled = true;
     }
     if (this.secondaryMailFocused === false) {
       this.secondaryMailFocused = true;
@@ -120,7 +106,6 @@ export class LoginComponent implements OnInit {
             this.navigateToUserSelection()
           }, 750);
         }
-
       }
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message);
@@ -134,16 +119,17 @@ export class LoginComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.error("Some Error Occured");
-      this.router.navigate(['server-error', 500])
+      this.router.navigate(['server-error', 500]);
     })
   }// end of loginFunction
 
+  // show normal user view
   navigateToUserDashboard = () => {
-    this.router.navigate(['user-dashboard'])
-  }
+    this.router.navigate(['user-dashboard']);
+  } // end of navigateToUserDashboard
 
+  // show admin user's view
   navigateToUserSelection = () => {
-    this.router.navigate(['user-selection'])
-  }
-
+    this.router.navigate(['user-selection']);
+  } // end of navigateToUserSelection
 }

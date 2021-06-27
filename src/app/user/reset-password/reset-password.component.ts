@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -11,20 +11,6 @@ import { AppService } from 'src/app/app.service';
 })
 export class ResetPasswordComponent implements OnInit {
 
-  // variables to store screen sizes
-  public status?: Boolean;
-  public scrHeight = window.innerHeight;
-  public scrWidth = window.innerWidth;
-  public detectScroll!: Boolean;
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    this.detectScroll = true;
-    if (scrollY === 0) {
-      this.detectScroll = false;
-    }
-  }
-
   // to toggle the error state and label position
   public passwordFocused: Boolean = false;
   public secondaryPasswordFocused: Boolean = false;
@@ -36,7 +22,7 @@ export class ResetPasswordComponent implements OnInit {
   // Creation of form group
   passwordResetForm = new FormGroup({
     newPassword: new FormControl(null, [Validators.required, Validators.pattern("^(?=.*[#?!@$%^&*-])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,30}$")])
-  })
+  });
 
   constructor(
     private _route: ActivatedRoute,
@@ -49,6 +35,7 @@ export class ResetPasswordComponent implements OnInit {
     this.authCheck();
   }
 
+  // checking if link is still valid
   public authCheck = () => {
     let data = {
       authToken: this.authToken,
@@ -66,8 +53,9 @@ export class ResetPasswordComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.error("Some Error Occured");
+      this.router.navigate(['server-error', 500]);
     });
-  }
+  } // end of authCheck
 
   // function to navigate to login
   public goToLogin = (): any => {
@@ -127,7 +115,7 @@ export class ResetPasswordComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.error("Some Error Occured");
+      this.router.navigate(['server-error', 500]);
     })
   } // end of editUserPassword
-
 }

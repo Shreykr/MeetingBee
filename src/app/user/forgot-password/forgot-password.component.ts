@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -10,20 +10,6 @@ import { AppService } from './../../app.service';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
-
-  // variables to store screen sizes
-  public status?: Boolean;
-  public scrHeight = window.innerHeight;
-  public scrWidth = window.innerWidth;
-  public detectScroll!: Boolean;
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    this.detectScroll = true;
-    if (scrollY === 0) {
-      this.detectScroll = false;
-    }
-  }
 
   // to toggle the error state
   public emailFocused: Boolean = false;
@@ -91,5 +77,4 @@ export class ForgotPasswordComponent implements OnInit {
       this.toastr.error("Some Error Occured");
     })
   } // end of sendRecoveryMail
-
 }

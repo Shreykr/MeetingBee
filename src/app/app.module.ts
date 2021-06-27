@@ -21,6 +21,8 @@ import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 import { UserDashboardComponent } from './meeting/user-dashboard/user-dashboard.component';
 import { UserSelectionComponent } from './meeting/user-selection/user-selection.component';
+import { AdminDashboardComponent } from './meeting/admin-dashboard/admin-dashboard.component';
+import { SocketService } from './socket.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { UserSelectionComponent } from './meeting/user-selection/user-selection.
     ForgotPasswordComponent,
     ResetPasswordComponent,
     UserDashboardComponent,
-    UserSelectionComponent
+    UserSelectionComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -43,12 +46,12 @@ import { UserSelectionComponent } from './meeting/user-selection/user-selection.
     NgbModalModule,
     NgbTooltipModule,
     Ng2SearchPipeModule,
+    HttpClientModule,
+    ToastrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    ToastrModule.forRoot(),
-    HttpClientModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -60,11 +63,12 @@ import { UserSelectionComponent } from './meeting/user-selection/user-selection.
       { path: 'reset-password/:authToken/:userId', component: ResetPasswordComponent },
       { path: 'user-dashboard', component: UserDashboardComponent },
       { path: 'user-selection', component: UserSelectionComponent },
-      { path: '*', component: HomeComponent },
-      { path: '**', component: HomeComponent }
+      { path: 'admin-dashboard/:participantId', component: AdminDashboardComponent },
+      { path: '*', component: ErrorComponent },
+      { path: '**', component: ErrorComponent }
     ])
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

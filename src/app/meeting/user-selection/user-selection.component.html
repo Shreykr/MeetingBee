@@ -4,7 +4,7 @@
         <div class="sub-container">
             <div class="row">
                 <div class="col-sm-12 search">
-                    <input type="text" [(ngModel)]="term" size="100">
+                    <input type="text" [(ngModel)]="term" size="100" placeholder="Filter Users...">
                 </div>
                 <div class="container text-center mt-5" *ngIf="loading">
                     <div class="spinner-grow text-danger" role="status">
@@ -16,7 +16,7 @@
                     <h1><b>There are no users 🙁</b></h1>
                 </div>
                 <div *ngFor="let user of allUsers |filter:term"
-                    class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-2 mt-sm-4">
+                    class="col-12   col-sm-12 col-md-6 col-lg-6 col-xl-4 mt-2 mt-sm-4">
                     <div class="card user-section ripple text-center" style="border-radius:10px;" *ngIf="!none"
                         (click)="navigateToUserCalendar(user.userId)">
                         <div class="card-body">

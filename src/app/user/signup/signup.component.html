@@ -10,7 +10,7 @@
                     formControlName="userFirstName" [ngClass]="{
                     'has-danger': ((signupForm.get('userFirstName')!.invalid && signupForm.get('userFirstName')!.dirty)||(signupForm.get('userFirstName')!.touched && signupForm.get('userFirstName')!.pristine)), 
                     'has-success': signupForm.get('userFirstName')!.valid && signupForm.get('userFirstName')!.dirty
-                }" data-toggle="tooltip" title="Max 30 alphabets" />
+                }" placement="top" ngbTooltip="Max 30 characters" tooltipClass="tooltip" />
             </div>
             <div *ngIf="signupForm.get('userFirstName')!.hasError('pattern') && !secondaryFirstNameFocused">
                 <p class="error-msg-p">Enter a valid name</p>
@@ -26,7 +26,7 @@
                     [ngClass]="{
                     'has-danger': ((signupForm.get('userLastName')!.invalid && signupForm.get('userLastName')!.dirty)||(signupForm.get('userLastName')!.touched && signupForm.get('userLastName')!.pristine)), 
                     'has-success': signupForm.get('userLastName')!.valid && signupForm.get('userLastName')!.dirty
-                }" data-toggle="tooltip" title="Max 30 characters (optional)" />
+                }" placement="top" ngbTooltip="Max 30 characters (optional)" tooltipClass="tooltip" />
             </div>
             <div *ngIf="signupForm.get('userLastName')!.hasError('pattern') && !secondaryLastNameFocused">
                 <p class="error-msg-p">Enter a valid name</p>
@@ -37,7 +37,7 @@
                     (focusout)="toggleUserNameFocus()" (change)="updateProgressBar()" type="text" name="username"
                     formControlName="userName" [ngClass]="{
                     'has-danger': ((signupForm.get('userName')!.invalid && signupForm.get('userName')!.dirty)||(signupForm.get('userName')!.touched && signupForm.get('userName')!.pristine)),'has-success': signupForm.get('userName')!.valid && signupForm.get('userName')!.dirty
-                }" data-toggle="tooltip" title="Max 20 characters" />
+                }" placement="top" ngbTooltip="Max 20 characters" tooltipClass="tooltip" />
             </div>
             <div *ngIf="signupForm.get('userName')!.hasError('pattern') && !secondaryUserNameFocused">
                 <p class="error-msg-p">Enter a valid name</p>
@@ -48,14 +48,7 @@
             </div>
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':countryFocused}">
                 <label for="select-dropdown" class="signup-form__label">Country</label>
-
                 <div class="select-dropdown">
-                    <!-- <select id="select-dropdown" class="form-control" size="5" aria-label="size 5 select example" [ngClass]="{
-                        'has-danger': ((signupForm.get('userCountry')!.invalid && signupForm.get('userCountry')!.dirty)||(signupForm.get('userCountry')!.touched && signupForm.get('userCountry')!.pristine)),
-                        'has-success': signupForm.get('userCountry')!.valid && signupForm.get('userCountry')!.dirty
-                      }" formControlName="userCountry">
-                    <ng-container *ngFor="let country of countryList; let i=index; let last=last;"><option [value]="country">{{country}}</option><hr *ngIf="!last" ></ng-container>                        
-                </select> -->
                     <input class="signup-form__input" list="datalistOptions" id="exampleDataList"
                         [placeholder]="countryFocused?'Type to search...' : ''" [ngClass]="{
                     'has-danger': ((signupForm.get('userCountry')!.invalid && signupForm.get('userCountry')!.dirty)||(signupForm.get('userCountry')!.touched && signupForm.get('userCountry')!.pristine)),
@@ -82,7 +75,7 @@
                     formControlName="userMobileNumber" [ngClass]="{
                     'has-danger': ((signupForm.get('userMobileNumber')!.invalid && signupForm.get('userMobileNumber')!.dirty)||(signupForm.get('userMobileNumber')!.touched && signupForm.get('userMobileNumber')!.pristine)), 
                     'has-success': signupForm.get('userMobileNumber')!.valid && signupForm.get('userMobileNumber')!.dirty
-                }" data-toggle="tooltip" title="Enter without country code" />
+                }" placement="top" ngbTooltip="Enter without country code" tooltipClass="tooltip" />
             </div>
             <div *ngIf="signupForm.get('userMobileNumber')!.hasError('pattern') && !secondaryMobileFocused">
                 <p class="error-msg-p">Enter a valid mobile number</p>
@@ -171,7 +164,6 @@
             </div>
             <button [disabled]="(!signupForm.valid || !result) || (signupForm.valid && !result)" id="signup-button"
                 type="submit" class="signup-form__btn ripple">Submit</button>
-            <!--<button (click)="resetForm()" class="reset__btn">Reset Form</button> -->
         </form>
     </div>
 </section>

@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, HostListener } from '@angular/core';
-
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -21,7 +20,6 @@ export class NavbarComponent implements OnInit {
 
   @Output()
   logoutClick: EventEmitter<any> = new EventEmitter<any>();
-  viewParticipantsClick: EventEmitter<any> = new EventEmitter<any>();
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
@@ -31,7 +29,9 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(
+    public router: Router
+  ) { }
 
   ngOnInit(): void {
     this.navChecker()
@@ -59,8 +59,7 @@ export class NavbarComponent implements OnInit {
     this.logoutClick.emit();
   }
 
-  viewParticipantsClicked() {
-    this.viewParticipantsClick.emit();
+  navigateToUserSelection() {
+    this.router.navigate(['/user-selection'])
   }
-
 }

@@ -1,16 +1,18 @@
-import { Component, OnInit, ViewChild, TemplateRef, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { ActivatedRoute, Router } from '@angular/router';
+import { isThisMinute } from 'date-fns/esm';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { isSameDay, isSameMonth, getMonth, getDate, getISOWeek, getDayOfYear, isToday } from 'date-fns';
 import { AppService } from 'src/app/app.service';
 import { ToastrService } from 'ngx-toastr';
 import { MeetingService } from 'src/app/meeting.service';
+import { SocketService } from './../../socket.service';
 
 // calendar related imports
-import { isSameDay, isSameMonth, getMonth, getDate, getISOWeek, getDayOfYear, isToday } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { isThisMinute } from 'date-fns/esm';
+
 
 const colors: any = {
   red: {
@@ -30,8 +32,7 @@ const colors: any = {
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
-  styleUrls: ['./user-dashboard.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./user-dashboard.component.css']
 })
 
 export class UserDashboardComponent implements OnInit {
@@ -46,21 +47,10 @@ export class UserDashboardComponent implements OnInit {
   public rightArrowValue: any;
   public leftArrowValue: any;
   public loading: Boolean = false;
+  public leftArrowState: Boolean = false;
+  public rightArrowState: Boolean = false;
 
-  // variables to store screen sizes
-  public status?: Boolean;
-  public scrHeight = window.innerHeight;
-  public scrWidth = window.innerWidth;
-  public detectScroll!: Boolean;
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    this.detectScroll = true;
-    if (scrollY === 0) {
-      this.detectScroll = false;
-    }
-  }
-
+  // detecting M, W, D keypress to change calendar view
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     this.key = event.keyCode;
@@ -89,19 +79,15 @@ export class UserDashboardComponent implements OnInit {
   // all angular-calendar related variables
   activeDayIsOpen: boolean = true;
   CalendarView = CalendarView;
+  refresh: Subject<any> = new Subject();
   public view: CalendarView = CalendarView.Month;
   public viewDate: Date = new Date(); // setting current date tab in calendar
   public events: CalendarEvent[] = []; // declaring array of events
-  refresh: Subject<any> = new Subject();
 
   // variables holding session details
   authToken: any;
   errorFlag: number = 0;
   userInfo: any;
-
-  // other variables
-  public leftArrowState: Boolean = false;
-  public rightArrowState: Boolean = false;
 
   constructor(
     private modal: NgbModal,
@@ -109,7 +95,8 @@ export class UserDashboardComponent implements OnInit {
     public _route: ActivatedRoute,
     public router: Router,
     public appService: AppService,
-    public meetingService: MeetingService
+    public meetingService: MeetingService,
+    public socketService: SocketService,
   ) { }
 
   ngOnInit(): void {
@@ -125,6 +112,12 @@ export class UserDashboardComponent implements OnInit {
 
       //check for a meeting for every 5 seconds
       this.scanMeetings();
+
+      //testing socket connection
+      this.verifyUserConfirmation();
+
+      // receiving real time notifications to subscribed socket events
+      this.receiveRealTimeNotifications();
 
       // update arrow tooltip
       this.changeButtonString(1);
@@ -148,6 +141,25 @@ export class UserDashboardComponent implements OnInit {
   clearScan() {
     clearInterval(this.intervalInstance);
   } // end of clearScan
+
+  //function to verify user (socket connection testing)
+  public verifyUserConfirmation: any = () => {
+    this.socketService.verifyUser()
+      .subscribe((data) => {
+        this.socketService.setUser(this.authToken);
+      });
+  }// end of verifyUserConfirmation
+
+  // function to receive real time notifications
+  receiveRealTimeNotifications() {
+    this.socketService.receiveRealTimeNotifications(this.userInfo.userId).subscribe((data: any) => {
+      this.loading = true;
+      setTimeout(() => {
+        this.toastr.info(`${data.notificationMessage}`, '', { timeOut: 5000 });
+        this.getMeetingDetails();
+      }, 1000);
+    });
+  } // end of receiveRealTimeNotifications
 
   // function to delete all cookies possibly present
   deleteCookies() {
@@ -258,6 +270,7 @@ export class UserDashboardComponent implements OnInit {
     }
   } // end of checkYear
 
+  // getting all meeting details
   getMeetingDetails() {
     let data = {
       authToken: this.authToken,
@@ -290,6 +303,7 @@ export class UserDashboardComponent implements OnInit {
       }
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 2050 });
+        this.socketService.exitSocket();
         this.router.navigate(['/not-found']);
       }
       else if (apiResult.status === 403) {
@@ -298,8 +312,14 @@ export class UserDashboardComponent implements OnInit {
       else if (apiResult.status === 500) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/server-error', 500]);
       }
+    }, (err) => {
+      this.deleteCookies();
+      this.socketService.exitSocket();
+      this.router.navigate(['server-error', 500]);
+      this.toastr.error('Some error occured', '', { timeOut: 1500 });
     })
   } // end of getMeetingDetails
 
@@ -365,7 +385,6 @@ export class UserDashboardComponent implements OnInit {
       this.dropdownValue = "Month"
       this.rightArrowValue = "Next Month";
       this.leftArrowValue = "Previous Month";
-
     }
     else if (value === 2) {
       this.dropdownValue = "Week";
@@ -390,28 +409,32 @@ export class UserDashboardComponent implements OnInit {
 
         this.toastr.success(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/home']);
       }
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/not-found']);
       }
       else if (apiResult.status === 403) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/home']);
       }
       else if (apiResult.status === 500) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/server-error', 500]);
       }
     }, (err) => {
       this.deleteCookies();
+      this.socketService.exitSocket();
       this.router.navigate(['server-error', 500]);
       this.toastr.error('Some error occured', '', { timeOut: 1500 });
     });
   } // end of logout
-
 }
