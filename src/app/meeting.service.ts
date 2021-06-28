@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http'
+import { HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs';
 
 import 'rxjs/add/operator/catch';
@@ -12,7 +12,9 @@ import 'rxjs/add/operator/toPromise';
 })
 export class MeetingService {
 
-  private url = 'http://localhost:3000';
+  private url = 'http://api.meetingbee.online';
+
+  // private url = 'http://localhost:3999';
 
   constructor(
     public http: HttpClient

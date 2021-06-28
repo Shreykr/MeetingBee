@@ -158,7 +158,7 @@ section {
 }
 
 .meeting__focused>label {
-  transform: translateY(-160%);
+  transform: translateY(-180%);
 }
 
 .error-msg-p {
@@ -408,6 +408,11 @@ pre {
   font-family: 'Montserrat', sans-serif;
 }
 
+.mobile-error-msg {
+  display: none;
+  font-size: clamp(0.35rem, 3vw, 0.85rem);
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -472,6 +477,10 @@ pre {
 
   .meeting__btn {
     margin: 1rem auto;
+  }
+
+  .mobile-error-msg {
+    display: block;
   }
 }
 

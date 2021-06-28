@@ -74,7 +74,7 @@ section {
 }
 
 .login-form__focused>label {
-  transform: translateY(-160%);
+  transform: translateY(-180%);
 }
 
 .error-msg-p {

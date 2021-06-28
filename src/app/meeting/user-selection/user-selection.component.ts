@@ -77,10 +77,14 @@ export class UserSelectionComponent implements OnInit {
             this.allUsers.push(user);
           }
         }
+        if (this.allUsers === null || this.allUsers === undefined || this.allUsers.length === 0) {
+          this.none = true;
+        }
       }
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
-        this.none = true;
+        this.deleteCookies();
+        this.router.navigate(['/not-found']);
       }
       else if (apiResult.status === 500) {
         this.deleteCookies();

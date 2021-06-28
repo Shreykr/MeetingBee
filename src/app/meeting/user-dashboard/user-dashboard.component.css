@@ -199,7 +199,7 @@ section {
   width: 100%;
   font-family: 'Montserrat', sans-serif;
   font-weight: bolder;
-  font-size: clamp(1rem, 4vw, 1.75rem);
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
 }
 
 p {

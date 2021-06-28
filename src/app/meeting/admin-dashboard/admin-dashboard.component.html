@@ -102,13 +102,18 @@
                                 *ngIf="updateMeetingForm.get('meetingUpdateEnd')!.hasError('required') && updateMeetingForm.get('meetingUpdateEnd')!.touched && !endTimeFilled">
                                 <p class="error-msg-p">End time Required</p>
                             </div>
+                            <div class="row mobile-error-msg">
+                                <div class="text-danger text-bolder"><b>*Please enter/change both Start Time and End
+                                        Time values once again!!!</b>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-2"></div>
                                 <div class="col-lg-4 ">
                                     <button id="update-button"
                                         [disabled]="!(updateMeetingForm.valid && updateMeetingForm.dirty && !startResult && !endResult)"
                                         class="meeting__btn ripple" (click)="close()" (click)="resetToggleStates()"
-                                        (click)="updateMeetingFunction()">Update </button>
+                                        (click)="updateMeetingFunction(updateMeetingForm)">Update </button>
                                 </div>
                                 <div class="col-lg-3 ">
                                     <button id="delete-button"
@@ -225,7 +230,6 @@
                                 *ngIf="createMeetingForm.get('meetingEnd')!.hasError('required') && createMeetingForm.get('meetingEnd')!.touched && !endTimeFilled">
                                 <p class="error-msg-p">End time Required</p>
                             </div>
-
                             <button [disabled]="!(createMeetingForm.valid && !startResult && !endResult)"
                                 id="create-button" type="submit" class="meeting__btn ripple" (click)="close()"
                                 (click)="resetToggleStates()">Create</button>

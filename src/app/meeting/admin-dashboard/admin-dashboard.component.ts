@@ -755,7 +755,7 @@ export class AdminDashboardComponent implements OnInit {
   } // end of addMeetingFunction
 
   // function to update meeting details
-  updateMeetingFunction() {
+  updateMeetingFunction(f: any) {
     let data = {
       authToken: this.authToken,
       adminId: this.userInfo.userId,

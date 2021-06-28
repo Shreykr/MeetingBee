@@ -104,6 +104,9 @@ export class UserDashboardComponent implements OnInit {
     this.userInfo = this.appService.getUserInfoFromLocalstorage();
     if (this.checkStatus() && this.userInfo.adminStatus === false) {
 
+      // initiating socket connection
+      this.connectToSocket();
+
       //getting all meeting details to populate calendar
       this.loading = true;
       setTimeout(() => {
@@ -129,6 +132,13 @@ export class UserDashboardComponent implements OnInit {
       this.router.navigate(['/home']);
     }
   }
+
+  // starting socket connection on component load
+  public connectToSocket: any = () => {
+    this.socketService.startConnection()
+      .subscribe(() => {
+      });
+  } // end of connectToSocket
 
   // function to scan for new meeting every 5 seconds
   scanMeetings() {

@@ -51,7 +51,7 @@ a {
 }
 
 .signup-form__focused>label {
-  transform: translateY(-160%);
+  transform: translateY(-180%);
 }
 
 .error-msg-p {
@@ -111,7 +111,7 @@ input:-webkit-autofill:active {
   border: none;
   border-bottom: 1px solid var(--light-clr);
   outline: none;
-  margin-top: 50px;
+  margin-top: 80px;
 }
 
 .signup-form__input-filled.signup-form__group::before {
