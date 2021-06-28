@@ -1,3 +1,10 @@
+.progress {
+  position: fixed;
+  width: 100%;
+  top: 80px;
+  z-index: 2;
+}
+
 section {
   min-height: 100vh;
   display: flex;
@@ -314,10 +321,16 @@ hr {
   background: rgb(90, 97, 105);
 }
 
-@media screen and (max-width:342px) {
+@media screen and (max-width:390px) {
   .signup-container {
     max-width: 90vmin;
     margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width:992px) {
+  .progress {
+    top: 70px;
   }
 }
 
