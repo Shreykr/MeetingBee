@@ -10,9 +10,12 @@ import 'rxjs/add/operator/toPromise';
 @Injectable({
   providedIn: 'root'
 })
+
 export class MeetingService {
 
-  private url = 'http://api.meetingbee.online';
+  private url = "https://meeting-bee-backend-app.herokuapp.com";
+
+  //private url = 'http://api.meetingbee.online';
 
   // private url = 'http://localhost:3999';
 

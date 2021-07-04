@@ -8,9 +8,11 @@ import { Observable } from 'rxjs';
 })
 export class AppService {
 
-  private url = 'http://api.meetingbee.online';
+  private url = "https://meeting-bee-backend-app.herokuapp.com";
 
-  // private url = 'http://localhost:3999';
+  //private url = 'http://api.meetingbee.online';
+
+  //private url = 'http://localhost:3999';
 
   constructor(
     public http: HttpClient

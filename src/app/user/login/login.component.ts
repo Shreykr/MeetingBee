@@ -12,6 +12,10 @@ import { Cookie } from 'ng2-cookies/ng2-cookies'
 })
 export class LoginComponent implements OnInit {
 
+  //other variable(s)
+  public blockRequest: Boolean = false;
+  public loading: Boolean = false;
+
   // to toggle the error state
   public emailFocused: Boolean = false;
   public passwordFocused: Boolean = false;
@@ -91,36 +95,48 @@ export class LoginComponent implements OnInit {
       email: f.controls.userMail.value.toLowerCase(),
       password: f.controls.userPassword.value
     }
-    this.appService.loginFunction(data).subscribe((apiResult) => {
-      if (apiResult.status === 200) {
-        Cookie.set('authtoken', apiResult.data.authToken);
-        Cookie.set('userId', apiResult.data.userDetails.userId);
-        this.appService.setUserInfoInLocalStorage(apiResult.data.userDetails);
-        if (apiResult.data.userDetails.adminStatus === false) {
-          setTimeout(() => {
-            this.navigateToUserDashboard()
-          }, 750);
+    if (!this.blockRequest) {
+      this.blockRequest = true;
+      this.loading = true;
+      this.appService.loginFunction(data).subscribe((apiResult) => {
+        if (apiResult.status === 200) {
+          this.loading = false;
+          Cookie.set('authtoken', apiResult.data.authToken);
+          Cookie.set('userId', apiResult.data.userDetails.userId);
+          this.appService.setUserInfoInLocalStorage(apiResult.data.userDetails);
+          if (apiResult.data.userDetails.adminStatus === false) {
+            setTimeout(() => {
+              this.navigateToUserDashboard()
+            }, 750);
+          }
+          else if (apiResult.data.userDetails.adminStatus === true) {
+            setTimeout(() => {
+              this.navigateToUserSelection()
+            }, 750);
+          }
         }
-        else if (apiResult.data.userDetails.adminStatus === true) {
-          setTimeout(() => {
-            this.navigateToUserSelection()
-          }, 750);
+        else if (apiResult.status === 404) {
+          this.loading = false;
+          this.toastr.error(apiResult.message);
+          this.router.navigate(['not-found']);
         }
-      }
-      else if (apiResult.status === 404) {
-        this.toastr.error(apiResult.message);
-        this.router.navigate(['not-found']);
-      }
-      else if (apiResult.status === 500) {
+        else if (apiResult.status === 500) {
+          this.loading = false;
+          this.router.navigate(['server-error', 500]);
+        }
+        else {
+          this.loading = false;
+          setTimeout(() => {
+            this.blockRequest = false;
+          }, 2050);
+          this.toastr.error(apiResult.message, '', { timeOut: 2000 })
+        }
+      }, (err) => {
+        this.loading = false;
+        this.toastr.error("Some Error Occured");
         this.router.navigate(['server-error', 500]);
-      }
-      else {
-        this.toastr.error(apiResult.message)
-      }
-    }, (err) => {
-      this.toastr.error("Some Error Occured");
-      this.router.navigate(['server-error', 500]);
-    })
+      })
+    }
   }// end of loginFunction
 
   // show normal user view

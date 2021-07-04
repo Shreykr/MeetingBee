@@ -12,9 +12,11 @@ import 'rxjs/add/operator/toPromise';
 })
 export class SocketService {
 
-  private url = 'http://api.meetingbee.online';
+  private url = "https://meeting-bee-backend-app.herokuapp.com";
 
-  // private url = 'http://localhost:3999';
+  //private url = 'http://api.meetingbee.online';
+
+  //private url = 'http://localhost:3999';
 
   private socket: any;
 

@@ -1,4 +1,5 @@
 <app-navbar [navSwitcher]="1"></app-navbar>
+
 <div class="progress">
     <div class="progress-bar  progress-bar-striped bg-success" role="progressbar" [style.width]="resultPercentage"
         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -75,7 +76,7 @@
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':mobileFocused}">
                 <label for="mobile" class="signup-form__label">Mobile Number</label>
                 <input id="mobile" class="signup-form__input" (focus)="toggleMobileFocus()"
-                    (focusout)="toggleMobileFocus()" (change)="updateProgressBar()" type="number" name="mobile"
+                    (focusout)="toggleMobileFocus()" (change)="updateProgressBar()" type="text" name="mobile"
                     formControlName="userMobileNumber" [ngClass]="{
                     'has-danger': ((signupForm.get('userMobileNumber')!.invalid && signupForm.get('userMobileNumber')!.dirty)||(signupForm.get('userMobileNumber')!.touched && signupForm.get('userMobileNumber')!.pristine)), 
                     'has-success': signupForm.get('userMobileNumber')!.valid && signupForm.get('userMobileNumber')!.dirty
@@ -166,7 +167,7 @@
             <div class="reset-form">
                 <p class="reset-form-text" (click)="resetForm()">Reset Form</p>
             </div>
-            <button [disabled]="(!signupForm.valid || !result) || (signupForm.valid && !result)" id="signup-button"
+            <button id="signup-button" [disabled]="(!signupForm.valid || !result) || (signupForm.valid && !result)"
                 type="submit" class="signup-form__btn ripple">Submit</button>
         </form>
     </div>
