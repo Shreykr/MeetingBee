@@ -2,12 +2,13 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isSameDay, isSameMonth, getMonth, getDate, getISOWeek, getDayOfYear } from 'date-fns';
 import { AppService } from 'src/app/app.service';
 import { MeetingService } from 'src/app/meeting.service';
 import { SocketService } from 'src/app/socket.service';
+import { ToastrService } from 'ngx-toastr';
 
 //calendar related imports
 import { Subject } from 'rxjs';
@@ -26,6 +27,10 @@ const colors: any = {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
   },
+  green: {
+    primary: '#21ad31',
+    secondary: '#e3fae8',
+  }
 };
 
 @Component({
@@ -44,7 +49,6 @@ export class AdminDashboardComponent implements OnInit {
   public typeName4: any = '';
   public startResult: Boolean = false;
   public endResult: Boolean = false;
-  public closeResult: string;
   public modalFlag1: Boolean = false;
   public modalFlag2: Boolean = false;
   public dropdownValue: String = "Month";
@@ -55,6 +59,7 @@ export class AdminDashboardComponent implements OnInit {
   public loading: Boolean = false;
   public leftArrowState: Boolean = false;
   public rightArrowState: Boolean = false;
+  public subscription: Subscription;
 
   // to toggle the error state
   public titleFocused: Boolean = false;
@@ -97,12 +102,13 @@ export class AdminDashboardComponent implements OnInit {
   errorFlag: number = 0;
   userInfo: any;
   participantMail: any;
+  participantUserName: any;
 
   // reactive form
   createMeetingForm = new FormGroup({
     meetingTitle: new FormControl(null, [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!'_ ]{2,50}$)")]),
     meetingDescription: new FormControl(null, [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!()^&?:',;__ ]{2,120}$)")]),
-    meetingLocation: new FormControl(null, [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!()^&?:',;__ ]{2,30}$)")]),
+    meetingLocation: new FormControl(null, [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!()^&?:',;__ ]{2,500}$)")]),
     meetingStart: new FormControl(null, [Validators.required]),
     meetingEnd: new FormControl(null, [Validators.required])
   });
@@ -130,7 +136,17 @@ export class AdminDashboardComponent implements OnInit {
         this.getMeetingDetails();
       }, 2000);
 
+      // initiating socket connection
+      this.connectToSocket();
+
+      //testing socket connection
+      this.verifyUserConfirmation();
+
+      // getting particular user details
       this.getUserDetail();
+
+      // receiving real time notifications to subscribed socket events
+      this.receiveRealTimeNotifications();
 
       // update arrow tooltip to month
       this.changeButtonString(1);
@@ -138,7 +154,41 @@ export class AdminDashboardComponent implements OnInit {
     else if (this.userInfo.adminStatus === false) {
       this.router.navigate(['/not-found']);
     }
+
+    this.checkYear();
   }
+
+  ngOnDestroy() {
+    if (this.checkStatus()) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  // starting socket connection on component load
+  public connectToSocket: any = () => {
+    this.socketService.startConnection()
+      .subscribe(() => {
+      });
+  } // end of connectToSocket
+
+  //function to verify user (socket connection testing)
+  public verifyUserConfirmation: any = () => {
+    this.socketService.verifyUser()
+      .subscribe((data) => {
+        this.socketService.setUser(this.authToken);
+      });
+  }// end of verifyUserConfirmation
+
+  // function to receive real time notifications
+  receiveRealTimeNotifications() {
+    this.subscription = this.socketService.receiveRealTimeNotifications(this.userInfo.userId).subscribe((data: any) => {
+      this.loading = true;
+      setTimeout(() => {
+        this.toastr.info(`${data.notificationMessage}`, '', { timeOut: 5000 });
+        this.getMeetingDetails();
+      }, 1000);
+    });
+  } // end of receiveRealTimeNotifications
 
   // function to delete all cookies possibly present
   deleteCookies = () => {
@@ -199,12 +249,11 @@ export class AdminDashboardComponent implements OnInit {
     this.updateMeetingForm = new FormGroup({
       meetingUpdateTitle: new FormControl(this.modalData?.event['title'], [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!'_ ]{2,50}$)")]),
       meetingUpdateDescription: new FormControl(this.modalData?.event['meetingDescription'], [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!()^&?:',;__ ]{2,120}$)")]),
-      meetingUpdateLocation: new FormControl(this.modalData?.event['meetingLocation'], [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!()^&?:',;__ ]{2,30}$)")]),
+      meetingUpdateLocation: new FormControl(this.modalData?.event['meetingLocation'], [Validators.required, Validators.pattern("([a-zA-Z0-9.\\-@#*%!()^&?:',;__ ]{2,500}$)")]),
       meetingUpdateStart: new FormControl(startResult, [Validators.required]),
       meetingUpdateEnd: new FormControl(endResult, [Validators.required])
     });
     this.modal.open(this.modalContent, { size: 'lg' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
       this.resetToggleStates();
     }, (reason) => {
       this.resetToggleStates();
@@ -578,7 +627,6 @@ export class AdminDashboardComponent implements OnInit {
     this.createData = { action };
     setTimeout(() => {
       this.modal.open(this.modalContent2, { size: 'lg' }).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
         this.resetToggleStates();
       }, (reason) => {
         this.resetToggleStates();
@@ -605,14 +653,21 @@ export class AdminDashboardComponent implements OnInit {
           meeting['end'] = new Date(meeting.meetingEnd);
           meeting['title'] = meeting.meetingTitle;
           meeting['color'] = colors.blue;
-          meeting['reminderStatus'] = true;
         }
         for (let meeting of this.allMeetings) {
-          if (this.colorPicker(meeting)) {
-            meeting['color'] = colors.yellow;
+          if (meeting['meetingStatus'] === 'no_response') {
+            if (this.colorPicker(meeting)) {
+              meeting['color'] = colors.yellow;
+            }
+            else {
+              meeting['color'] = colors.blue;
+            }
           }
-          else {
-            meeting['color'] = colors.blue;
+          else if (meeting['meetingStatus'] === 'Accepted') {
+            meeting['color'] = colors.green;
+          }
+          else if (meeting['meetingStatus'] === 'Declined') {
+            meeting['color'] = colors.red;
           }
         }
         this.events = this.allMeetings;
@@ -678,13 +733,17 @@ export class AdminDashboardComponent implements OnInit {
     this.meetingService.getUserInfo(data).subscribe((apiResult) => {
       if (apiResult.status === 200) {
         this.participantMail = apiResult.data.email;
+        this.participantUserName = apiResult.data.userName;
       }
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 2050 });
+        this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/not-found']);
       }
       else if (apiResult.status === 403) {
         this.toastr.error(apiResult.message, '', { timeOut: 2050 });
+        this.socketService.exitSocket();
         this.router.navigate(['/user-selection']);
       }
       else if (apiResult.status === 500) {
@@ -695,6 +754,7 @@ export class AdminDashboardComponent implements OnInit {
     }, (err) => {
       this.toastr.error("Some Error Occured", '', { timeOut: 1050 });
       this.deleteCookies();
+      this.socketService.exitSocket();
       this.router.navigate(['/server-error', 500]);
     });
   } // end of getUserDetail
@@ -706,8 +766,10 @@ export class AdminDashboardComponent implements OnInit {
       adminId: this.userInfo.userId,
       adminName: this.userInfo.firstName + " " + this.userInfo.lastName,
       adminStatus: this.userInfo.adminStatus,
+      adminMail: this.userInfo.email,
       participantId: this._route.snapshot.paramMap.get('participantId'),
       participantMail: this.participantMail,
+      participantUserName: this.participantUserName,
       meetingTitle: this.createMeetingForm.controls.meetingTitle.value,
       meetingDescription: this.createMeetingForm.controls.meetingDescription.value,
       meetingLocation: this.createMeetingForm.controls.meetingLocation.value,
@@ -722,7 +784,7 @@ export class AdminDashboardComponent implements OnInit {
           this.getMeetingDetails();
         }, 800);
         setTimeout(() => {
-          //notification alert using scockets
+          // notification alert using sockets
           let meetingStartDate = new Date(this.createMeetingForm.controls.meetingStart.value).toLocaleDateString()
           let notificationObject = {
             toId: this._route.snapshot.paramMap.get('participantId'),
@@ -740,15 +802,18 @@ export class AdminDashboardComponent implements OnInit {
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 1500 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['not-found']);
       }
       else if (apiResult.status === 500) {
         this.toastr.error(apiResult.message, '', { timeOut: 1500 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['server-error', 500]);
       }
     }, (err) => {
       this.deleteCookies();
+      this.socketService.exitSocket();
       this.router.navigate(['server-error', 500]);
       this.toastr.error('Some error occured', '', { timeOut: 1500 });
     });
@@ -790,15 +855,18 @@ export class AdminDashboardComponent implements OnInit {
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 2500 });
         this.deleteCookies();
+        this.socketService.exitSocket(); this.socketService.exitSocket();
         this.router.navigate(['not-found']);
       }
       else if (apiResult.status === 500) {
         this.toastr.error(apiResult.message, '', { timeOut: 2500 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['server-error', 500]);
       }
     }, (err) => {
       this.deleteCookies();
+      this.socketService.exitSocket();
       this.router.navigate(['server-error', 500]);
       this.toastr.error('Some error occured', '', { timeOut: 1500 });
     })
@@ -832,15 +900,18 @@ export class AdminDashboardComponent implements OnInit {
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 2500 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['not-found']);
       }
       else if (apiResult.status === 500) {
         this.toastr.error(apiResult.message, '', { timeOut: 2500 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['server-error', 500]);
       }
     }, (err) => {
       this.deleteCookies();
+      this.socketService.exitSocket();
       this.router.navigate(['server-error', 500]);
       this.toastr.error('Some error occured', '', { timeOut: 1500 });
     })
@@ -874,28 +945,32 @@ export class AdminDashboardComponent implements OnInit {
     }
     this.appService.userLogout(data).subscribe((apiResult) => {
       if (apiResult.status === 200) {
-
         this.toastr.success(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/home']);
       }
       else if (apiResult.status === 404) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/not-found']);
       }
       else if (apiResult.status === 403) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/home']);
       }
       else if (apiResult.status === 500) {
         this.toastr.error(apiResult.message, '', { timeOut: 1050 });
         this.deleteCookies();
+        this.socketService.exitSocket();
         this.router.navigate(['/server-error', 500]);
       }
     }, (err) => {
       this.deleteCookies();
+      this.socketService.exitSocket();
       this.router.navigate(['server-error', 500]);
       this.toastr.error('Some error occured', '', { timeOut: 1500 });
     });

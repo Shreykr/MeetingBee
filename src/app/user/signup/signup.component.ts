@@ -370,7 +370,7 @@ export class SignupComponent implements OnInit {
 
   // function to update progress bar
   public updateProgressBar = () => {
-    if ((this.signupForm.controls.userFirstName.dirty && this.signupForm.controls.userFirstName.valid) && (this.updateObj.firstName !== 1)) {
+    if ((this.signupForm.controls.userFirstName.valid) && (this.updateObj.firstName !== 1)) {
       this.percentageValue += 14.2857143;
       this.updateObj['firstName'] = 1;
     }

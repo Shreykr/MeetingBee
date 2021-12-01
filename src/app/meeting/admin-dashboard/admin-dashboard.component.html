@@ -57,7 +57,7 @@
                                     value="{{modalData?.event['meetingLocation']}}" [ngClass]="{
                                             'has-danger': ((updateMeetingForm.get('meetingUpdateLocation')!.invalid && updateMeetingForm.get('meetingUpdateLocation')!.dirty)||(updateMeetingForm.get('meetingUpdateLocation')!.touched && !updateMeetingForm.get('meetingUpdateLocation')!.pristine)), 
                                             'has-success': updateMeetingForm.get('meetingUpdateLocation')!.valid && updateMeetingForm.get('meetingUpdateLocation')!.dirty
-                                        }" placement="top" ngbTooltip="Max 30 characters" tooltipClass="tooltip" />
+                                        }" />
                             </div>
                             <div class="error-msg"
                                 *ngIf="updateMeetingForm.get('meetingUpdateLocation')!.hasError('pattern') && !secondaryLocationFocused">
@@ -188,7 +188,7 @@
                                     formControlName="meetingLocation" [ngClass]="{
                                             'has-danger': ((createMeetingForm.get('meetingLocation')!.invalid && createMeetingForm.get('meetingLocation')!.dirty)||(createMeetingForm.get('meetingLocation')!.touched && createMeetingForm.get('meetingLocation')!.pristine)), 
                                             'has-success': createMeetingForm.get('meetingLocation')!.valid && createMeetingForm.get('meetingLocation')!.dirty
-                                        }" placement="top" ngbTooltip="Max 30 characters" tooltipClass="tooltip" />
+                                        }" />
                             </div>
                             <div class="error-msg"
                                 *ngIf="createMeetingForm.get('meetingLocation')!.hasError('pattern') && !secondaryLocationFocused">
@@ -296,8 +296,7 @@
                             </mwl-calendar-month-view>
 
                             <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events"
-                                [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-                                (dayHeaderClicked)="changeDay($event.day.date);changeButtonString(3)">
+                                [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)">
                             </mwl-calendar-week-view>
 
                             <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [hourSegments]="2"

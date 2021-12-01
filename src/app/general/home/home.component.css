@@ -7,12 +7,12 @@ a {
 }
 
 .home-text {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bolder;
 }
 
 .home-text-2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: clamp(1.35rem, 5vw, 2.05rem);
   font-weight: bold;
 }
@@ -39,13 +39,14 @@ a {
   border: none;
   color: black;
   background-color: rgb(202, 199, 199);
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bolder;
   font: calc(0.7em+1vw);
   padding: 0.5em 2.75em;
   border-radius: 5px;
   font-weight: bolder;
-  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2), 0px 2px 3px 0px rgba(29, 0, 10, 0.2);
+  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2),
+    0px 2px 3px 0px rgba(29, 0, 10, 0.2);
 }
 
 .ripple {
@@ -55,18 +56,18 @@ a {
 
 .ripple:hover {
   color: black;
-  background: rgb(211, 207, 4) radial-gradient(circle, transparent 1%, rgb(211, 207, 5) 1%) center/15000%;
+  background: rgb(211, 207, 4)
+    radial-gradient(circle, transparent 1%, rgb(211, 207, 5) 1%) center/15000%;
 }
 
 .ripple:active {
   background-color: rgb(143, 121, 0);
-  ;
   background-size: 100%;
   transition: background 0s;
 }
 
 .login-text {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bolder;
 }
 
@@ -78,7 +79,7 @@ a {
 
 .card-title,
 .card-text {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bolder;
 }
 
@@ -87,7 +88,7 @@ a {
 }
 
 .card-text {
-  font-size: clamp(0.25rem, 4vw, .95rem);
+  font-size: clamp(0.25rem, 4vw, 0.95rem);
 }
 
 .home-image {
@@ -98,7 +99,7 @@ a {
 }
 
 .footer-content {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 900;
   font-size: clamp(0.45rem, 4vw, 0.95rem);
   width: 100%;
@@ -108,7 +109,7 @@ a {
   padding: 20px;
 }
 
-footer>h5 {
+footer > h5 {
   margin: 0;
 }
 
@@ -125,7 +126,7 @@ footer>h5 {
   background: rgb(90, 97, 105);
 }
 
-@media screen and (max-width:996px) {
+@media screen and (max-width: 996px) {
   .card {
     width: 17rem;
   }
@@ -141,7 +142,7 @@ footer>h5 {
   }
 }
 
-@media screen and (min-width: 230px)and (max-width:415px) and (max-height:654px) {
+@media screen and (min-width: 230px) and (max-width: 415px) and (max-height: 654px) {
   .card {
     width: 14rem;
   }
@@ -163,7 +164,12 @@ footer>h5 {
   }
 }
 
-@media screen and (min-width: 319px)and (max-width:358px) and (max-height:627px) {
+img.card-img-top {
+  width: auto;
+  height: auto;
+}
+
+@media screen and (min-width: 319px) and (max-width: 358px) and (max-height: 627px) {
   .home-text {
     margin-top: 3.5px;
     font-size: 1.25rem;
@@ -182,7 +188,7 @@ footer>h5 {
   }
 }
 
-@media screen and (min-width: 50px)and (max-width:358px) and (max-height:960px) {
+@media screen and (min-width: 50px) and (max-width: 358px) and (max-height: 960px) {
   .home-text {
     margin-top: 3.5px;
     font-size: 1.25rem;
@@ -201,7 +207,7 @@ footer>h5 {
   }
 }
 
-@media screen and (min-width: 359px) and (max-width:412px) and (min-height:626px) {
+@media screen and (min-width: 359px) and (max-width: 412px) and (min-height: 626px) {
   .home-text {
     margin-top: 2.5px;
     font-size: 1.25rem;
@@ -220,10 +226,10 @@ footer>h5 {
   }
 }
 
-@media screen and (min-width: 410px) and (max-width:737px) and (min-height:626px) {
+@media screen and (min-width: 410px) and (max-width: 737px) and (min-height: 626px) {
   .home-text {
     margin-top: 2.5rem;
-    font-size: 1.50rem;
+    font-size: 1.5rem;
   }
 
   .main-button {
@@ -239,7 +245,7 @@ footer>h5 {
   }
 }
 
-@media screen and (min-width: 750px)and (max-width:1015px) {
+@media screen and (min-width: 750px) and (max-width: 1015px) {
   .home-text {
     font-size: 2.25rem;
   }
@@ -255,10 +261,9 @@ footer>h5 {
   .home-image {
     margin-top: 20px;
   }
-
 }
 
-@media screen and (min-width: 1020px)and (max-width:1040px) {
+@media screen and (min-width: 1020px) and (max-width: 1040px) {
   .home-text {
     font-size: 2.75rem;
   }
@@ -276,7 +281,7 @@ footer>h5 {
   }
 }
 
-@media screen and (max-width:1200px) {
+@media screen and (max-width: 1200px) {
   .description {
     margin-top: 100px;
   }

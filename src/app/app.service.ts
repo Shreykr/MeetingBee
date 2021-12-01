@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AppService {
 
-  private url = "https://meeting-bee-backend-app.herokuapp.com";
+  private url = "https://meetingbee-backend.herokuapp.com";
 
   //private url = 'http://api.meetingbee.online';
 

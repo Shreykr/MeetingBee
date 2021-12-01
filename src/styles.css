@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* main {
+  text-align: center;
+  position: relative;
+} */
+
 .tooltip .tooltip-inner {
   opacity: 0.85;
 }
@@ -395,7 +400,9 @@ html {
   top: 0;
 }
 
-.cal-week-view .cal-all-day-events .cal-resize-handle.cal-resize-handle-after-end {
+.cal-week-view
+  .cal-all-day-events
+  .cal-resize-handle.cal-resize-handle-after-end {
   right: 0;
 }
 
@@ -473,7 +480,7 @@ html {
 }
 
 .cal-week-view .cal-hour-segment::after {
-  content: '\00a0';
+  content: "\00a0";
 }
 
 .cal-week-view .cal-event-container:not(.cal-draggable) {
@@ -566,7 +573,10 @@ html {
   border-color: #e1e1e1;
 }
 
-.cal-week-view .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
+.cal-week-view
+  .cal-time-events
+  .cal-day-columns:not(.cal-resize-active)
+  .cal-hour-segment:hover {
   background-color: #ededed;
 }
 

@@ -6,7 +6,7 @@
             <ng-template #meetingAlert let-close="close">
                 <div class="modal-header">
                     <h5 class="modal-title text-center text-danger">Meeting Alert</h5>
-                    <button type="button" class="close" (click)="close()">
+                    <button type="button" class="close" title="close" (click)="close()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -33,7 +33,7 @@
             <ng-template #modalContent let-close="close">
                 <div class="modal-header">
                     <h5 class="modal-title text-center">Meeting Details</h5>
-                    <button type="button" class="close" (click)="close()">
+                    <button type="button" class="close" title="close" (click)="close()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -58,6 +58,18 @@
                             <p class="modal-info text-left text-dark">End</p><span class="modal-subinfo text-muted">: {{ modalData?.event.end|date:'medium'}}</span>
                         </div>
                     </pre>
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <button [disabled]="modalData?.event['meetingStatus'] ==='Accepted'" type="button"
+                                class="btn calendar-modal-button ripple-green"
+                                (click)="meetingStatusUpdate(1);close();">Accept</button>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <button [disabled]="modalData?.event['meetingStatus'] ==='Declined'" type="button"
+                                class="btn calendar-modal-button ripple-red"
+                                (click)="meetingStatusUpdate(0);close();">Decline</button>
+                        </div>
+                    </div>
                 </div>
             </ng-template>
             <div class="row ">
@@ -112,8 +124,7 @@
                             </mwl-calendar-month-view>
 
                             <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events"
-                                [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-                                (dayHeaderClicked)="changeDay($event.day.date);changeButtonString(3)">
+                                [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)">
                             </mwl-calendar-week-view>
 
                             <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events"

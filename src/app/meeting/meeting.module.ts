@@ -11,7 +11,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     AdminDashboardComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ]
 })
 export class MeetingModule { }

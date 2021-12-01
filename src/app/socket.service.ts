@@ -12,7 +12,7 @@ import 'rxjs/add/operator/toPromise';
 })
 export class SocketService {
 
-  private url = "https://meeting-bee-backend-app.herokuapp.com";
+  private url = "https://meetingbee-backend.herokuapp.com";
 
   //private url = 'http://api.meetingbee.online';
 
@@ -26,7 +26,7 @@ export class SocketService {
 
   public startConnection = () => {
     return new Observable((observer) => {
-      this.socket = io(this.url);
+      this.socket = io(this.url, { 'transports': ['websocket'] });
       observer.next();
     })
   } // end of startConnection

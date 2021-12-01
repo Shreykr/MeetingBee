@@ -170,6 +170,38 @@ section {
   transition: background 0s;
 }
 
+.ripple-green {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+.ripple-green:hover {
+  color: black;
+  background: rgb(19, 172, 5) radial-gradient(circle, transparent 1%, rgb(5, 172, 13) 1%) center/15000%;
+}
+
+.ripple-green:active {
+  background-color: rgb(5, 228, 35);
+  background-size: 100%;
+  transition: background 0s;
+}
+
+.ripple-red {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+.ripple-red:hover {
+  color: black;
+  background: rgb(172, 16, 5) radial-gradient(circle, transparent 1%, rgb(172, 44, 5) 1%) center/15000%;
+}
+
+.ripple-red:active {
+  background-color: rgb(228, 57, 5);
+  background-size: 100%;
+  transition: background 0s;
+}
+
 .main-container {
   --warm-clr1: #dbba00;
   --warm-clr2: #292728;

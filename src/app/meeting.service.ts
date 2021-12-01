@@ -13,11 +13,11 @@ import 'rxjs/add/operator/toPromise';
 
 export class MeetingService {
 
-  private url = "https://meeting-bee-backend-app.herokuapp.com";
+  private url = "https://meetingbee-backend.herokuapp.com";
 
   //private url = 'http://api.meetingbee.online';
 
-  // private url = 'http://localhost:3999';
+  //private url = 'http://localhost:3999';
 
   constructor(
     public http: HttpClient
@@ -53,9 +53,11 @@ export class MeetingService {
       .set('authToken', data.authToken)
       .set('adminId', data.adminId)
       .set('adminName', data.adminName)
+      .set('adminMail', data.adminMail)
       .set('adminStatus', data.adminStatus)
       .set('participantId', data.participantId)
       .set('participantMail', data.participantMail)
+      .set('participantUserName', data.participantUserName)
       .set('meetingTitle', data.meetingTitle)
       .set('meetingDescription', data.meetingDescription)
       .set('meetingLocation', data.meetingLocation)
@@ -82,6 +84,18 @@ export class MeetingService {
 
     return this.http.post(`${this.url}/api/v1/meeting/update-meeting`, params);
   } // end of updateMeeting
+
+  public updateMeetingStatus(data: any): Observable<any> {
+    const params = new HttpParams()
+      .set('authToken', data.authToken)
+      .set('adminStatus', data.adminStatus)
+      .set('participantId', data.participantId)
+      .set('meetingId', data.meetingId)
+      .set('adminMail', data.adminMail)
+      .set('meetingStatus', data.meetingStatus)
+
+    return this.http.post(`${this.url}/api/v1/meeting/update-meeting-user`, params);
+  } // end of updateMeetingStatus
 
   public deleteMeeting(data: any): Observable<any> {
     const params = new HttpParams()

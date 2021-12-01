@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   // variables to store screen sizes
-  public status?: Boolean;
+  public status?: Boolean = false;
   public scrHeight = window.innerHeight;
   public scrWidth = window.innerWidth;
   public detectScroll!: Boolean;

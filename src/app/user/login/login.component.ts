@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AppService } from 'src/app/app.service';
 import { Cookie } from 'ng2-cookies/ng2-cookies'
@@ -32,7 +32,8 @@ export class LoginComponent implements OnInit {
   constructor(
     public appService: AppService,
     public router: Router,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -141,7 +142,7 @@ export class LoginComponent implements OnInit {
 
   // show normal user view
   navigateToUserDashboard = () => {
-    this.router.navigate(['user-dashboard']);
+    this.router.navigate(['../user-dashboard'], { relativeTo: this.route });
   } // end of navigateToUserDashboard
 
   // show admin user's view

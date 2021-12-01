@@ -18,7 +18,7 @@ a {
 .main-container {
   --warm-clr1: #dbba00;
   --warm-clr2: #292728;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   background: linear-gradient(180deg, var(--warm-clr1), var(--warm-clr2));
 }
 
@@ -30,7 +30,8 @@ a {
   padding: 2.5rem 1rem;
   border-radius: 0.55rem;
   margin-top: 8rem;
-  box-shadow: 0px 4px 20px 0px rgba(29, 0, 10, 0.2), 0px 2px 8px 0px rgba(29, 0, 10, 0.2);
+  box-shadow: 0px 4px 20px 0px rgba(29, 0, 10, 0.2),
+    0px 2px 8px 0px rgba(29, 0, 10, 0.2);
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -57,7 +58,7 @@ a {
   transition: 0.3s transform ease-in-out;
 }
 
-.signup-form__focused>label {
+.signup-form__focused > label {
   transform: translateY(-180%);
 }
 
@@ -92,7 +93,12 @@ input:-webkit-autofill:active {
   display: block;
   height: 2px;
   width: 100%;
-  background-image: linear-gradient(75deg, var(--warm-clr1), var(--warm-clr1), var(--warm-clr2));
+  background-image: linear-gradient(
+    75deg,
+    var(--warm-clr1),
+    var(--warm-clr1),
+    var(--warm-clr2)
+  );
   position: absolute;
   left: 0;
   bottom: 0;
@@ -140,7 +146,8 @@ input:-webkit-autofill:active {
   padding: 0.5em 2.75em;
   border-radius: 5px;
   font-weight: bolder;
-  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2), 0px 2px 3px 0px rgba(29, 0, 10, 0.2);
+  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2),
+    0px 2px 3px 0px rgba(29, 0, 10, 0.2);
   overflow: hidden;
 }
 
@@ -153,7 +160,8 @@ input:-webkit-autofill:active {
   border-radius: 5px;
   font-weight: bolder;
   font-size: clamp(0.35rem, 5vw, 0.55rem);
-  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2), 0px 2px 3px 0px rgba(29, 0, 10, 0.2);
+  box-shadow: 0px 4px 10px 0px rgba(29, 0, 10, 0.2),
+    0px 2px 3px 0px rgba(29, 0, 10, 0.2);
 }
 
 .select-dropdown {
@@ -198,12 +206,12 @@ hr {
 
 .ripple:hover {
   color: black;
-  background: rgb(172, 169, 5) radial-gradient(circle, transparent 1%, rgb(172, 169, 5) 1%) center/15000%;
+  background: rgb(172, 169, 5)
+    radial-gradient(circle, transparent 1%, rgb(172, 169, 5) 1%) center/15000%;
 }
 
 .ripple:active {
   background-color: rgb(228, 195, 5);
-  ;
   background-size: 100%;
   transition: background 0s;
 }
@@ -220,6 +228,7 @@ hr {
   cursor: pointer;
   color: rgb(74, 74, 240);
   text-shadow: 1px black;
+  user-select: none;
 }
 
 .reset-form-text:hover {
@@ -241,6 +250,18 @@ hr {
   height: 10px;
   overflow-x: hidden;
 }
+
+/* .scroll-gradient {
+  background: 
+      linear-gradient(#ffffff 33%, rgba(255,255,255, 0)),
+      linear-gradient(rgba(255,255,255, 0), #ffffff 66%) 0 100%,
+      radial-gradient(farthest-side at 50% 0, rgba(0,0,0, 0.5), rgba(0,0,0,0)),
+      radial-gradient(farthest-side at 50% 100%, rgba(0,0,0, 0.5), rgba(0,0,0,0)) 0 100%;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
+  background-size: 100% 111px, 100% 111px, 100% 37px, 100% 37px;
+} */
 
 .popovers {
   position: relative;
@@ -321,14 +342,14 @@ hr {
   background: rgb(90, 97, 105);
 }
 
-@media screen and (max-width:390px) {
+@media screen and (max-width: 390px) {
   .signup-container {
     max-width: 90vmin;
     margin-bottom: 10px;
   }
 }
 
-@media screen and (max-width:992px) {
+@media screen and (max-width: 992px) {
   .progress {
     top: 70px;
   }

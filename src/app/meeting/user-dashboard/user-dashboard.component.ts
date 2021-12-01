@@ -13,7 +13,6 @@ import { SocketService } from './../../socket.service';
 import { Subject } from 'rxjs';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 
-
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -27,6 +26,10 @@ const colors: any = {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
   },
+  green: {
+    primary: '#21ad31',
+    secondary: '#e3fae8',
+  }
 };
 
 @Component({
@@ -100,7 +103,9 @@ export class UserDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.authToken = Cookie.get('authtoken');
+
     this.userInfo = this.appService.getUserInfoFromLocalstorage();
     if (this.checkStatus() && this.userInfo.adminStatus === false) {
 
@@ -131,6 +136,8 @@ export class UserDashboardComponent implements OnInit {
       this.toastr.error("Invalid Access", '', { timeOut: 2000 });
       this.router.navigate(['/home']);
     }
+    //updating arrow state
+    this.checkYear();
   }
 
   // starting socket connection on component load
@@ -302,11 +309,19 @@ export class UserDashboardComponent implements OnInit {
           meeting['modalOpen'] = false;
         }
         for (let meeting of this.allMeetings) {
-          if (this.colorPicker(meeting)) {
-            meeting['color'] = colors.yellow;
+          if (meeting['meetingStatus'] === 'no_response') {
+            if (this.colorPicker(meeting)) {
+              meeting['color'] = colors.yellow;
+            }
+            else {
+              meeting['color'] = colors.blue;
+            }
           }
-          else {
-            meeting['color'] = colors.blue;
+          else if (meeting['meetingStatus'] === 'Accepted') {
+            meeting['color'] = colors.green;
+          }
+          else if (meeting['meetingStatus'] === 'Declined') {
+            meeting['color'] = colors.red;
           }
         }
         this.events = this.allMeetings;
@@ -348,6 +363,63 @@ export class UserDashboardComponent implements OnInit {
     });
   } // end of meetingInstancesSort
 
+  // updating meeting status based on button click
+  meetingStatusUpdate(updateValue: any) {
+    let data: any = {};
+    let status: any;
+    if (updateValue === 0) {
+      this.modalData.event['meetingStatus'] = 'Declined';
+      status = 'Declined';
+    }
+    else if (updateValue === 1) {
+      this.modalData.event['meetingStatus'] = 'Accepted';
+      status = 'Accepted';
+    }
+    data = {
+      authToken: this.authToken,
+      adminStatus: this.userInfo.adminStatus,
+      meetingId: this.modalData?.event['meetingId'],
+      participantId: this.userInfo.userId,
+      adminMail: this.modalData?.event['adminMail'],
+      meetingStatus: status
+    }
+    this.loading = true;
+    this.meetingService.updateMeetingStatus(data).subscribe((apiResult) => {
+      if (apiResult.status === 200) {
+        setTimeout(() => {
+          let meetingStartDate = new Date(this.modalData.event['meetingStart']).toLocaleDateString()
+          let notificationObject = {
+            toId: this.modalData.event['adminId'],
+            notificationMessage: `Meeting status updated by user. Check date ${meetingStartDate} or mail for more details`
+          }
+          this.socketService.sendUpdateNotification(notificationObject);
+          this.toastr.success(apiResult.message, '', { timeOut: 1050 });
+          this.loading = false;
+          this.colorUpdate();
+        }, 1350);
+      }
+      else if (apiResult.status === 404) {
+        this.loading = false;
+        this.toastr.error(apiResult.message, '', { timeOut: 2050 });
+        this.socketService.exitSocket();
+        this.router.navigate(['/not-found']);
+      }
+      else if (apiResult.status === 500) {
+        this.loading = false;
+        this.toastr.error(apiResult.message, '', { timeOut: 1050 });
+        this.deleteCookies();
+        this.socketService.exitSocket();
+        this.router.navigate(['/server-error', 500]);
+      }
+    }, (err) => {
+      this.loading = false;
+      this.deleteCookies();
+      this.socketService.exitSocket();
+      this.router.navigate(['server-error', 500]);
+      this.toastr.error('Some error occured', '', { timeOut: 1500 });
+    })
+  } // end of meetingStatusUpdate
+
   // logic to choose color for overlapping meetings
   colorPicker(meeting: any): Boolean {
     if (this.meetingInstances.length > 1) {
@@ -365,6 +437,16 @@ export class UserDashboardComponent implements OnInit {
       return false;
     }
   } // end of colorPicker
+
+  // to update color of meeting instance on accept/decline
+  colorUpdate() {
+    if (this.modalData.event['meetingStatus'] === 'Accepted') {
+      this.modalData.event['color'] = colors.green;
+    }
+    else if (this.modalData.event['meetingStatus'] === 'Declined') {
+      this.modalData.event['color'] = colors.red;
+    }
+  } // end of colorUpdate
 
   // alert 1 minute before meeting starts
   meetingReminder() {

@@ -11,8 +11,8 @@
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':firstNameFocused}">
                 <label for="firstname" class="signup-form__label">First Name</label>
                 <input autocomplete="false" id="firstname" class="signup-form__input" (focus)="toggleFirstNameFocus()"
-                    (focusout)="toggleFirstNameFocus()" (change)="updateProgressBar()" type="text" name="firstname"
-                    formControlName="userFirstName" [ngClass]="{
+                    (focusout)="toggleFirstNameFocus()" (ngModelChange)="updateProgressBar()" type="text"
+                    name="firstname" formControlName="userFirstName" [ngClass]="{
                     'has-danger': ((signupForm.get('userFirstName')!.invalid && signupForm.get('userFirstName')!.dirty)||(signupForm.get('userFirstName')!.touched && signupForm.get('userFirstName')!.pristine)), 
                     'has-success': signupForm.get('userFirstName')!.valid && signupForm.get('userFirstName')!.dirty
                 }" placement="top" ngbTooltip="Max 30 characters" tooltipClass="tooltip" />
@@ -39,7 +39,7 @@
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':userNameFocused}">
                 <label for="username" class="signup-form__label">Username</label>
                 <input id="username" class="signup-form__input" (focus)="toggleUserNameFocus()"
-                    (focusout)="toggleUserNameFocus()" (change)="updateProgressBar()" type="text" name="username"
+                    (focusout)="toggleUserNameFocus()" (ngModelChange)="updateProgressBar()" type="text" name="username"
                     formControlName="userName" [ngClass]="{
                     'has-danger': ((signupForm.get('userName')!.invalid && signupForm.get('userName')!.dirty)||(signupForm.get('userName')!.touched && signupForm.get('userName')!.pristine)),'has-success': signupForm.get('userName')!.valid && signupForm.get('userName')!.dirty
                 }" placement="top" ngbTooltip="Max 20 characters" tooltipClass="tooltip" />
@@ -52,14 +52,14 @@
                 <p class="error-msg-p">Username Required</p>
             </div>
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':countryFocused}">
-                <label for="select-dropdown" class="signup-form__label">Country</label>
+                <label for="exampleDataList" class="signup-form__label">Country</label>
                 <div class="select-dropdown">
                     <input class="signup-form__input" list="datalistOptions" id="exampleDataList"
                         [placeholder]="countryFocused?'Type to search...' : ''" [ngClass]="{
                     'has-danger': ((signupForm.get('userCountry')!.invalid && signupForm.get('userCountry')!.dirty)||(signupForm.get('userCountry')!.touched && signupForm.get('userCountry')!.pristine)),
                     'has-success': signupForm.get('userCountry')!.valid && signupForm.get('userCountry')!.dirty
                   }" formControlName="userCountry" (focus)="toggleCountryFocus()" (focusout)="toggleCountryFocus()"
-                        (change)="updateProgressBar()">
+                        (ngModelChange)="updateProgressBar()">
                     <datalist id="datalistOptions">
                         <option *ngFor="let country of countryList" [value]="country">{{country}}</option>
                     </datalist>
@@ -76,7 +76,7 @@
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':mobileFocused}">
                 <label for="mobile" class="signup-form__label">Mobile Number</label>
                 <input id="mobile" class="signup-form__input" (focus)="toggleMobileFocus()"
-                    (focusout)="toggleMobileFocus()" (change)="updateProgressBar()" type="text" name="mobile"
+                    (focusout)="toggleMobileFocus()" (ngModelChange)="updateProgressBar()" type="text" name="mobile"
                     formControlName="userMobileNumber" [ngClass]="{
                     'has-danger': ((signupForm.get('userMobileNumber')!.invalid && signupForm.get('userMobileNumber')!.dirty)||(signupForm.get('userMobileNumber')!.touched && signupForm.get('userMobileNumber')!.pristine)), 
                     'has-success': signupForm.get('userMobileNumber')!.valid && signupForm.get('userMobileNumber')!.dirty
@@ -92,7 +92,7 @@
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':emailFocused}">
                 <label for="email" class="signup-form__label">Email</label>
                 <input id="email" class="signup-form__input" (focus)="toggleEmailFocus()"
-                    (focusout)="toggleEmailFocus()" (change)="updateProgressBar()" type="email" name="email"
+                    (focusout)="toggleEmailFocus()" (ngModelChange)="updateProgressBar()" type="email" name="email"
                     formControlName="userMail" [ngClass]="{
                     'has-danger': ((signupForm.get('userMail')!.invalid && signupForm.get('userMail')!.dirty)||(signupForm.get('userMail')!.touched && signupForm.get('userMail')!.pristine)), 
                     'has-success': signupForm.get('userMail')!.valid && signupForm.get('userMail')!.dirty
@@ -109,12 +109,13 @@
                 [ngClass]="{'signup-form__focused':passwordFocused,'popover-active':toggles}">
                 <label for="password" class="signup-form__label">Password</label>
                 <input id="password" class="signup-form__input popover-trigger" (focus)="toggle()"
-                    (focusout)="badToggle()" (change)="verify()" (focus)="togglePasswordFocus()"
-                    (focusout)="togglePasswordFocus()" (keyup)="validatePassword()" (change)="updateProgressBar()"
-                    type="password" name="password" formControlName="userPassword" [ngClass]="{
+                    (focusout)="badToggle()" (ngModelChange)="verify()" (focus)="togglePasswordFocus()"
+                    (focusout)="togglePasswordFocus()" (keyup)="validatePassword()"
+                    (ngModelChange)="updateProgressBar()" type="password" name="password" formControlName="userPassword"
+                    [ngClass]="{
                     'has-danger': ((signupForm.get('userPassword')!.invalid && signupForm.get('userPassword')!.dirty)||(signupForm.get('userPassword')!.touched && signupForm.get('userPassword')!.pristine)), 
                     'has-success': signupForm.get('userPassword')!.valid && signupForm.get('userPassword')!.dirty }"
-                    (change)="verify()" />
+                    (ngModelChange)="verify()" />
             </div>
             <ul class="popover-menu" *ngIf="toggles">
                 <li class="popover-menu-item"><button [ngClass]="{
@@ -148,9 +149,9 @@
             </div>
             <div class="signup-form__group" [ngClass]="{'signup-form__focused':confirmPasswordFocused}">
                 <label for="confirmPassword" class="signup-form__label">Confirm Password</label>
-                <input id="confirmPassword" class="signup-form__input" (change)="verify()"
+                <input id="confirmPassword" class="signup-form__input" (ngModelChange)="verify()"
                     (focus)="toggleConfirmPasswordFocus()" (focusout)="toggleConfirmPasswordFocus()"
-                    (change)="updateProgressBar()" type="password" name="confirmPassword"
+                    (ngModelChange)="updateProgressBar()" type="password" name="confirmPassword"
                     formControlName="userConfirmPassword" [ngClass]="{
                     'has-danger': ((signupForm.get('userConfirmPassword')!.invalid && signupForm.get('userConfirmPassword')!.dirty)||(signupForm.get('userConfirmPassword')!.touched && signupForm.get('userConfirmPassword')!.pristine))||(!result && signupForm.get('userConfirmPassword')!.dirty), 
                     'has-success': signupForm.get('userConfirmPassword')!.valid && signupForm.get('userConfirmPassword')!.dirty && result
